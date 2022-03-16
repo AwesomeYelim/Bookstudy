@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <script>
+        function ho(){
+            const h = 1;
+            const y = 2;
+
+            //일반적으로 클로저라 안함
+            function ye(){
+                const l = 3;
+
+                debugger;
+                //상위 스코프의 식별자를 참조 x
+                console.log(l);
+            }
+
+            return ye;
+        }
+
+        const ye = ho();
+        ye();
+    </script>
+</body>
+</html>

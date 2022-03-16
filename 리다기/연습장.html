@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Example</title>
+    <style>
+      .success {
+        background-color: green;
+      }
+
+      .failure {
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="password" id="password" />
+    <button onclick="validate()">Validate</button>
+    <script>
+      function increase(number) {
+        const promise = new Promise((resolve, reject) => {
+          // resolve는 성공, reject는 실패
+          setTimeout(() => {
+            const result = number + 10;
+            if (result > 50) {
+              // 50보다 높으면 에러 발생시키기
+              const e = new Error("NumberTooBig");
+              return reject(e);
+            }
+            resolve(result); // number 값에 +10 후 성공 처리
+          }, 1000);
+        });
+        return promise;
+      }
+
+      async function runTasks() {
+        try {
+          // try/catch 구문을 사용하여 에러를 처리합니다.
+          let result = await increment(0);
+          console.log(result);
+          result = await increment(result);
+          console.log(result);
+          result = await increment(result);
+          console.log(result);
+          result = await increment(result);
+          console.log(result);
+          result = await increment(result);
+          console.log(result);
+          result = await increment(result);
+          console.log(result);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    </script>
+  </body>
+</html>

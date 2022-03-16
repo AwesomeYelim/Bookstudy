@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>연습장</title>
+  </head>
+
+  <body>
+
+
+    
+    <!-- 1. 불펌방지 코드 ↓ -->
+    <!-- <img src="http://placekitten.com/300/300" alt=""> 
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const imgs = document.querySelectorAll('img')
+
+        imgs.forEach((img) => {
+          img.addEventListener('contextmenu', (event) =>{
+            event.preventDefault(); //컨텍스트 메뉴를 출력하는 기본이벤트를 제거함
+          })
+        })
+      })
+  </script> -->
+
+
+
+
+
+    <!-- 2. 체크될시에만 링크 활성화 ↓ -->
+    <!-- <input type="checkbox">
+    <span>예림 깃헙^^</span>
+    <br>
+    <a href="https://github.com/AwesomeYelim" target="_blank">Yelim Github</a>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          let status = false;
+
+          const checkbox = document.querySelector('input[type=checkbox]');
+          checkbox.addEventListener('change',(event) => {
+            status = event.currentTarget.checked; //checked 속성을 사용
+          })
+
+          const link = document.querySelector('a')
+          link.addEventListener('click', (event) => {
+            if(!status) {
+              event.preventDefault(); //status가 false가 아니면 링크의 기본 이벤트를 제거함
+            }
+          })
+
+         
+        })
+    </script> -->
+
+
+
+
+
+    <!-- 3. 할일 목록 만들기 -->
+    <!-- <h1>✭ 오늘의 할일 ✭</h1>
+    <input id="todo">
+    <button id="add-button">추가하기</button>
+    <div id="todo-list">
+
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // 문서 객체를 가져오기
+        const input = document.querySelector('#todo');
+        const todoList = document.querySelector('#todo-list');
+        const addButton = document.querySelector('#add-button');
+
+        // 변수 선언
+        let keyCount = 0 // 이후 removeTodo()함수에서 문서 객체를 쉽게 제거하기 위한 용도로 만든 변수~
+
+        // 함수 선언
+        const addTodo = () => {
+          // 입력 양식에 내용이 없으면 추가하지 않음
+          if(input.value.trim() === ''){
+            alert('오늘 뭐할 껑미')
+            return
+          }
+          // 문서 객체 설정
+          const item = document.createElement('div')
+          const checkbox = document.createElement('input')
+          const text = document.createElement('span')
+          const button = document.createElement('button')
+
+          // 문서 객체를 식별할 키를 생성
+          const key = keyCount //removeTodo()함수에서 문서객체 쉽게 제거하기위한 용도
+          keyCount += 1
+
+          // item 객체를 조작하고 추가함
+          item.setAttribute('data-key', key)
+          item.appendChild(checkbox)
+          item.appendChild(text)
+          item.appendChild(button)
+          todoList.appendChild(item)
+
+          // checkbox 객체를 조작함
+          checkbox.type = 'checkbox'
+          checkbox.addEventListener('change', (event) => {
+            item.style.textDecoration = event.target.checked ? 'line-through' : ''
+          })
+
+          // text 객체를 조작함
+          text.textContent = input.value
+          // <span>글자</span> 형태를 구성
+
+          
+          // button 객체를 조작
+          button.textContent = '제거'
+          button.addEventListener('click', () => {
+            removeTodo(key)
+          })
+
+          // 입력 양식의 내용을 비움
+          input.value = ''
+        }
+
+        const removeTodo = (key) => {
+          // 식별 키로 문서 객체를 제거함
+
+          const item = document.querySelector(`[data-key="${key}"]`)
+          todoList.removeChild(item)
+        }
+
+        // 이벤트 연결
+        addButton.addEventListener('click', addTodo)
+        input.addEventListener('keyup', (event) => {
+          // 입력 양식에서 Enter 키를 누르면 바로 addTodo() 함수를 호출함
+          const ENTER = 13
+          if(event.keyCode === ENTER){
+            addTodo()
+          }
+        })
+      })
+    </script> -->
+
+
+
+
+
+
+
+    <!-- 4. 타이머로 구현한 남은 글자수 세기 -->
+    <!-- <h1></h1>
+<textarea></textarea>
+  <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const textarea = document.querySelector('textarea')
+        const h1 = document.querySelector('h1')
+        let timerId
+
+        textarea.addEventListener('focus', (event) => { // 입력 양식 활성화
+          timerId = setInterval(() => {
+            const length = textarea.value.length
+            h1.textContent = `글자 수: ${length}`
+          }, 50)
+        })
+        textarea.addEventListener('blur', (event) => { // 입력 양식 비활성화
+          clearInterval(timerId)
+        })
+      })
+  </script> -->
+
+
+
+
+
+    <!-- 5. localStorage 객체 -->
+    <p></p>
+    <button>지우기</button>
+    <input type="text" />
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const p = document.querySelector("p");
+        const input = document.querySelector("input");
+        const button = document.querySelector("button");
+
+        const savedValue = localStorage.getItem("input"); // 값을 읽을땐 getItem() 메서드
+        // localStorage.input 도 가능
+        if (savedValue) {
+          input.value = savedValue;
+          p.textContent = `이전 실행 때의 마지막 값: ${savedValue}`;
+        }
+
+        input.addEventListener("keyup", (event) => {
+          const value = event.currentTarget.value;
+          localStorage.setItem("input", value); // 값을 저장할때 setItem() 메서드
+          // localStorage.input = value도 가능
+        });
+
+        button.addEventListener("click", (event) => {
+          localStorage.clear(); // 값을 모두 제거시 clear()
+          input.value = "";
+        });
+      });
+    </script>
+  </body>
+</html>

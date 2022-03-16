@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <div id="root"></div>
+</body>
+<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+    class App extends React.Component {
+        constructor (props){
+            super(props)
+            this.state = {
+                time: new Date()
+            }
+        }
+
+        reder () {
+            return <h1>{this.state.time.toLocaleTimeString()}</h1>
+        }
+
+        conponentDidMount () {
+            //컴포넌트가 화면에 출력 되었을때
+            this.timerID = setInterval(() => {
+                this.setState({
+                    time : new Date()
+                })
+            }, 1000)
+        }
+
+        componentWillUnmount () {
+            // 컴포넌트가 화면에서 제거 될때
+            clearInterval(this.timeId)
+        }
+    }
+
+    // 출력하기
+    const constainer = document.getElementById('root')
+    ReactDOM.render(<APP />, container)
+</script>
+</html>
