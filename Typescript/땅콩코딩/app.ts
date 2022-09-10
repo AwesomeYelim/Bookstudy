@@ -98,30 +98,64 @@
 
 // 005. 예제 - 3
 
+// interface Aboutme {
+//  readonly myname: string;
+//   age: number;
+//   gender: string;
+//   hobby: string;
+//   married: boolean;
+//   thisismethod?(comment: string): string;
+//   //   thisismethod? : (comment : string) => string;
+// }
+
+// const who = {
+//   myname: "yelim",
+//   age: 28,
+//   gender: "female",
+//   hobby: "playingguitar",
+//   married: false,
+// };
+
+// function aboutyelim(age: number): Aboutme {
+//   return who;
+// }
+
+// function aboutyelim2(aboutme: Aboutme): void {
+// }
+
+// aboutyelim2(who);
+
+
+// 006. 예제 - 1
+  enum GenderType {
+    Male,
+    Female
+  }
+
 interface Aboutme {
- readonly myname: string;
-  age: number;
-  gender: string;
-  hobby: string;
-  married: boolean;
-  thisismethod?(comment: string): string;
-  //   thisismethod? : (comment : string) => string;
-}
-
-const who = {
-  myname: "yelim",
-  age: 28,
-  gender: "female",
-  hobby: "playingguitar",
-  married: false,
-};
-
-function aboutyelim(age: number): Aboutme {
-  return who;
-}
-
-function aboutyelim2(aboutme: Aboutme): void {
-}
-
-aboutyelim2(who);
-
+  readonly myname: string;
+   age: number;
+   gender: GenderType
+   hobby: string;
+   married: boolean;
+   thisismethod?(comment: string): string;
+   //   thisismethod? : (comment : string) => string;
+ }
+ 
+ const who = {
+   myname: "yelim",
+   age: 28,
+   gender: GenderType.Female,
+   hobby: "playingguitar",
+   married: false,
+ };
+ 
+ function aboutyelim(age: number): Aboutme {
+   return who;
+ }
+ 
+ function aboutyelim2(aboutme: Aboutme): void {
+ }
+ 
+ aboutyelim2(who);
+ 
