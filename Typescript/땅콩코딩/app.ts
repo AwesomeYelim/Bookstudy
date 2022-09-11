@@ -160,21 +160,48 @@
 
 // 006. 예제 - 2
 
+// interface Aboutme {
+//   readonly myname: string;
+//   age: number;
+//   gender: string;
+//   hobby: 'playingguitar' | 'singasong' | 'enjoyingDesserts';
+//   married: boolean;
+// }
 
-interface Aboutme {
-  readonly myname: string;
-  age: number;
-  gender: string;
-  hobby: 'playingguitar' | 'singasong' | 'enjoyingDesserts';
-  married: boolean;
-}
+// function aboutyelim(age: number): Aboutme {
+//   return {
+//     myname: "yelim",
+//     age: 28,
+//     gender: "female",
+//     hobby: 'singasong',
+//     married: false,
+//   };
+// }
 
-function aboutyelim(age: number): Aboutme {
-  return {
-    myname: "yelim",
-    age: 28,
-    gender: "female",
-    hobby: 'singasong',
-    married: false, 
-  };
-}
+// 007. 예제 - 1
+
+// type DayType = number | string;
+
+// let day : DayType = 1;
+
+// day = '하루'
+
+// const test1 = (a : DayType, b : DayType) : void => {
+
+// }
+
+// 007. 예제 - 2
+
+type DayType = number | string;
+
+let day = 1;
+
+const test1 = (a: DayType): void => {
+  if (typeof a === "string") {
+    day = 0;
+  } else {
+    day = a;
+  }
+};
+
+test1(50);
