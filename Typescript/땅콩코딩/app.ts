@@ -192,16 +192,52 @@
 
 // 007. 예제 - 2
 
-type DayType = number | string;
+// type DayType = number | string;
 
-let day = 1;
+// let day = 1;
 
-const test1 = (a: DayType): void => {
-  if (typeof a === "string") {
-    day = 0;
-  } else {
-    day = a;
-  }
-};
+// const test1 = (a: DayType): void => {
+//   if (typeof a === "string") {
+//     day = 0;
+//   } else {
+//     day = a;
+//   }
+// };
 
-test1(50);
+// test1(50);
+
+// 008. 예제 - 1
+
+// function test():void {}
+
+// function test(): string[] {
+//   return ["a", "b"];
+// }
+
+// 008. 예제 - 2
+
+// function test():void {}
+
+// function test(a: string, b?: string, c?: string, d?: string, e?: string): void {
+//   console.log(a, b, c, d, e);
+// }
+
+// console.log(test("hi"));
+
+
+// 008. 예제 - 3
+
+// function test(a: string, b = 'yelim'): void { 
+//   console.log(a, b);
+// }
+
+// test("hi");
+
+
+function test(a = 'hello', b = 'yelim'): void { 
+  console.log(a, b);
+}
+
+test();
+test('hi');
+test('hi','there');
