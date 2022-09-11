@@ -125,37 +125,56 @@
 
 // aboutyelim2(who);
 
-
 // 006. 예제 - 1
-  enum GenderType {
-    Male,
-    Female
-  }
+
+// enum Forfun {
+//   Playingguitar = 'playingguitar',
+//   Singasong = 'singasong',
+//   EnjoyingDesserts = 'enjoyingDesserts',
+// }
+
+// const who = {
+//   myname: "yelim",
+//   age: 28,
+//   gender: "female",
+//   hobby: Forfun.Playingguitar,
+//   married: false,
+// };
+// interface Aboutme {
+//   readonly myname: string;
+//   age: number;
+//   gender: string;
+//   hobby: Forfun;
+//   married: boolean;
+//   thisismethod?(comment: string): string;
+//   //   thisismethod? : (comment : string) => string;
+// }
+
+// function aboutyelim(age: number): Aboutme {
+//   return who;
+// }
+
+// function aboutyelim2(aboutme: Aboutme): void {}
+
+// aboutyelim2(who);
+
+// 006. 예제 - 2
+
 
 interface Aboutme {
   readonly myname: string;
-   age: number;
-   gender: GenderType
-   hobby: string;
-   married: boolean;
-   thisismethod?(comment: string): string;
-   //   thisismethod? : (comment : string) => string;
- }
- 
- const who = {
-   myname: "yelim",
-   age: 28,
-   gender: GenderType.Female,
-   hobby: "playingguitar",
-   married: false,
- };
- 
- function aboutyelim(age: number): Aboutme {
-   return who;
- }
- 
- function aboutyelim2(aboutme: Aboutme): void {
- }
- 
- aboutyelim2(who);
- 
+  age: number;
+  gender: string;
+  hobby: 'playingguitar' | 'singasong' | 'enjoyingDesserts';
+  married: boolean;
+}
+
+function aboutyelim(age: number): Aboutme {
+  return {
+    myname: "yelim",
+    age: 28,
+    gender: "female",
+    hobby: 'singasong',
+    married: false, 
+  };
+}
