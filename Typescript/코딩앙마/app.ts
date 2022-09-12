@@ -1,4 +1,4 @@
-// 예제 1. 식별 가능한 유니온타입(union type)
+// 예제 1_1. 식별 가능한 유니온타입(union type)
 
 // interface Beverage {
 //   name: "tea";
@@ -21,7 +21,7 @@
 //   }
 // }
 
-// 예제 2. 교차타입 (Intersection type)
+// 예제 1_2. 교차타입 (Intersection type)
 
 // interface Beverage {
 //   name: string;
@@ -44,9 +44,9 @@
 //   price: 5000,
 // };
 
-// 예제 3. Generics
+// 예제 2. Generics
 
-// 3-1
+// 2-1
 
 // function order<T>(arr : T[]): number {
 //   return SafeArray.length;
@@ -64,7 +64,7 @@
 // const arr4 = [{}, {}, { name: "yelim" }];
 // order(arr4);
 
-// 3-2
+// 2-2
 
 // interface Mobile<T> {
 //   name: string;
@@ -88,29 +88,151 @@
 //   option: "good",
 // };
 
-interface User {
-  name: string;
-  age: number;
-}
+// 2-3
 
-interface Car {
-  name: string;
-  color: string;
-}
+// interface User {
+//   name: string;
+//   age: number;
+// }
 
-interface Book {
-  price: number;
-  name: string;
-}
+// interface Car {
+//   name: string;
+//   color: string;
+// }
 
-const user: User = { name: "a", age: 10 };
-const car: Car = { name: "bmw", color: "blue" };
-const book: Book = { price: 3000, name: 'diary' };
+// interface Book {
+//   price: number;
+//   name: string;
+// }
 
-function showName<T extends { name: string }>(data: T): string {
-  return data.name;
-}
+// const user: User = { name: "a", age: 10 };
+// const car: Car = { name: "bmw", color: "blue" };
+// const book: Book = { price: 3000, name: 'diary' };
 
-showName(user);
-showName(car);
-showName(book);
+// function showName<T extends { name: string }>(data: T): string {
+//   return data.name;
+// }
+
+// showName(user);
+// showName(car);
+// showName(book);
+
+// 예제 3. Utility Types
+
+// 3_1 keyof
+// interface User {
+//   id: number;
+//   name: string;
+//   age: number;
+//   gender: "m" | "f";
+// }
+
+// type UserKey = keyof User; // 'id' | 'name'| 'age'| 'gender'
+
+// const uk: UserKey = "name";
+
+// 3_2 Partial<T>
+
+// interface User {
+//   id: number;
+//   name: string;
+//   age: number;
+//   gender: "m" | "f";
+// }
+
+// let admin: Partial<User> = {
+//   id: 1,
+//   name: "yelim",
+// };
+
+// 3_3 Required<T>
+// interface User {
+//   id: number;
+//   name: string;
+//   age?: number;
+// }
+
+// let admin: Required<User> = {
+//   id: 1,
+//   name: "yelim",
+//   age: 18,
+// };
+
+// 3_4 Readonly<T>
+// interface User {
+//   id: number;
+//   name: string;
+//   age?: number;
+// }
+
+// let admin: Readonly<User> = {
+//   id: 1,
+//   name: "yelim",
+// };
+
+// admin.id = 10;
+
+// 3_5 Record<K,T>
+
+// type Grade = "1" | "2" | "3" | "4";
+// type Score = "A" | "B" | "C" | "D";
+
+// const score: Record<Grade, Score> = {
+//   1: "A",
+//   2: "B",
+//   3: "C",
+//   4: "D",
+// };
+
+// interface User {
+//   id: number;
+//   name: string;
+//   age: number;
+// }
+
+// function isValid(user: User) {
+//   const result: Record<keyof User, boolean> = {
+//     id: user.id > 0,
+//     name: user.name !== "",
+//     age: user.age > 0,
+//   };
+//   return result;
+// }
+
+// 3_6 Pick<T,K>
+
+// interface User {
+//   id: number;
+//   name: string;
+//   age: number;
+//   gender: "m" | "w";
+// }
+
+// const admin: Pick<User, "id"| "name"> = {
+//   id: 0,
+//   name: "bob",
+// };
+
+// 3_7 Omit<T,K>
+
+// interface User {
+//   id: number;
+//   name: string;
+//   age: number;
+//   gender: "m" | "w";
+// }
+
+// const admin: Omit<User, "age"| "gender"> = {
+//   id: 0,
+//   name: "bob",
+// };
+
+// 3_8 Exclude<T1,T2>
+
+// type T1 = string | number | boolean;
+// type T2 = Exclude<T1, number>;
+
+// 3_9 NonNullable<Type>
+
+type T1 = string | null | undefined | void;
+type T2 = NonNullable<T1>
