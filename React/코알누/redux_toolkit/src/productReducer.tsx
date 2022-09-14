@@ -1,14 +1,7 @@
-import React from 'react';
-import { Reducer } from '@reduxjs/toolkit';
 
+import { combineReducers }  from "@reduxjs/toolkit"; 
+import { configureStore } from "@reduxjs/toolkit";
 
-let initialState = {
-    productList: [],
-    selectedItem: null,
-}
+const rootReducer = combineReducers({})
+export type RootState = ReturnType<typeof rootReducer>
 
-function productReducer(state = initialState, action){
-
-}
-
-export default productReducer
