@@ -9,6 +9,8 @@ import * as passport from "passport";
 import * as hpp from "hpp";
 
 import { sequelize } from "./models";
+import userRouter from "./routes/user";
+import postRouter from "./routes/post";
 
 dotenv.config();
 const app = express();

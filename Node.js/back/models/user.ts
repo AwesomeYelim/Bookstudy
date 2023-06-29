@@ -22,7 +22,7 @@ class User extends Model {
   public readonly Followings?: User[];
   public readonly Followers?: User[];
 
-  public addFollowings!: BelongsToManyAddAssociationMixin<User, number>;
+  public addFollowing!: BelongsToManyAddAssociationMixin<User, number>;
   public getFollowings!: BelongsToManyGetAssociationsMixin<User>;
   public removeFollowing!: BelongsToManyRemoveAssociationMixin<User, number>;
   public getFollowers!: BelongsToManyGetAssociationsMixin<User>;
@@ -56,6 +56,8 @@ User.init(
 
 export const associate = (db: dbType) => {
   db.User.hasMany(db.Post, { as: "Posts" });
+  db.User.hasMany(db.Comment);
+  db.User.belongsToMany(db.Post, { through: "Like", as: "Liked" });
   db.User.belongsToMany(db.User, { through: "Follow", as: "Followers", foreignKey: "followingId" }); // as 와 foreignKey가 가리키는것이 반대여야함
   db.User.belongsToMany(db.User, { through: "Follow", as: "Followings", foreignKey: "followerId" });
 };

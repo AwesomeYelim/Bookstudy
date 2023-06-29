@@ -1,5 +1,13 @@
-import { Model, DataTypes } from "sequelize";
+import {
+  Model,
+  DataTypes,
+  BelongsToManyAddAssociationsMixin,
+  HasManyAddAssociationsMixin,
+  HasManyAddAssociationMixin,
+} from "sequelize";
 import { dbType } from ".";
+import Hashtag from "./hashtag";
+import Image from "./image";
 import { sequelize } from "./sequelize";
 
 class Post extends Model {
@@ -7,6 +15,10 @@ class Post extends Model {
   public content!: string;
   public readonly createdAt!: Date;
   public readonly updateAt!: Date;
+
+  public addHashtags!: BelongsToManyAddAssociationsMixin<Hashtag, number>;
+  public addImage!: HasManyAddAssociationMixin<Image, number>;
+  public addImages!: HasManyAddAssociationsMixin<Image, number>;
 }
 
 Post.init(
@@ -25,6 +37,13 @@ Post.init(
   }
 );
 
-export const associate = (db: dbType) => {};
+export const associate = (db: dbType) => {
+  db.Post.belongsTo(db.User);
+  db.Post.hasMany(db.Comment);
+  db.Post.hasMany(db.Image);
+  db.Post.belongsTo(db.Post, { as: "Retweet" });
+  db.Post.belongsToMany(db.Hashtag, { through: "PostHashtag" });
+  db.Post.belongsToMany(db.User, { through: "Like", as: "Likers" });
+};
 
 export default Post;
