@@ -11,6 +11,8 @@ import * as hpp from "hpp";
 import { sequelize } from "./models";
 import userRouter from "./routes/user";
 import postRouter from "./routes/post";
+import postsRouter from "./routes/posts";
+import hashtagRouter from "./routes/hashtag";
 
 dotenv.config();
 const app = express();
@@ -59,7 +61,10 @@ app.use(
     name: "rnbck",
   })
 );
-
+app.use("/user", userRouter);
+app.use("/post", postRouter);
+app.use("/posts", postsRouter);
+app.use("/hashtag", hashtagRouter);
 app.get("/", (req, res, next) => {
   res.send("백앤드 정상임");
 });
