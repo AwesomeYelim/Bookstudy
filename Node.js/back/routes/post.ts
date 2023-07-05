@@ -3,7 +3,6 @@ import * as multer from "multer";
 import * as multerS3 from "multer-s3";
 import * as AWS from "aws-sdk";
 import * as path from "path";
-import * as BlueBird from "bluebird";
 
 import { isLoggedIn } from "./middleware";
 import Post from "../models/post";
@@ -50,7 +49,7 @@ router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
     if (req.body.image) {
       if (Array.isArray(req.body.image)) {
         //  원래 promises 를 사용하지만 sequelize 는 promises의 확장판인 BlueBird를 사용한다
-        const promises: BlueBird<Image>[] = req.body.image.map((image: string) => {
+        const promises: Promise<Image>[] = req.body.image.map((image: string) => {
           Image.create({ src: image });
         });
         const images = await Promise.all(promises);
