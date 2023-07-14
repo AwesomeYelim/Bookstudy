@@ -1,0 +1,11 @@
+{
+  "main": {
+    "header": {
+      "asset": {
+        "me_1": "assetName",
+        "me_2": "asset{{count}}",
+        "me_3": "are you sure to delete?<br/>it can't be recovered"
+      }
+    }
+  }
+}
