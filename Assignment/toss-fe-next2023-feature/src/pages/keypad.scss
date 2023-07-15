@@ -1,0 +1,57 @@
+.keypad_area {
+  display: flex;
+  flex-wrap: wrap;
+  .flex_area {
+    display: flex;
+    svg,
+    span {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      align-items: center;
+      width: 70px;
+      height: 70px;
+      background-color: rgba(228, 228, 228, 0.707);
+      margin: 8px;
+      border-radius: 10px;
+      padding: 25px;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    span {
+      background-color: rgba(207, 217, 255, 0.478);
+      color: rgb(25, 25, 255);
+      padding: initial;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+
+      &.confirm {
+        background-color: rgb(25, 25, 255);
+        color: white;
+      }
+    }
+
+    // &:nth-child(1) {
+    //   span {
+    //     &::after {
+    //       content: '←';
+    //     }
+    //   }
+    // }
+    // &:nth-child(2) {
+    //   span {
+    //     &::after {
+    //       content: '전체삭제';
+    //     }
+    //   }
+    // }
+    // &:nth-child(3) {
+    //   span {
+    //     &::after {
+    //       content: '확인';
+    //     }
+    //   }
+    // }
+  }
+}
