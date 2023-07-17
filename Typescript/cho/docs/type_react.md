@@ -311,3 +311,143 @@ export const ReactC: FC<Props> = (p: Props) => {
   ```
 
 - 1번 타입은 리랜더링을 방지하기 위한 state 로 만들때 사용
+
+## class components typing
+
+- 다음과 같은 구조가 있음
+
+```ts
+import { Component, FormEvent } from "react";
+
+interface P {
+  name: string;
+  title: string;
+}
+interface S {
+  word: string;
+  value: string;
+}
+class RC extends Component<P, S> {
+  state = {
+    name: "yelim",
+    value: "",
+    result: "",
+    word: "",
+  };
+
+  onSubmitForm = (e: FormEvent) => {
+    e.preventDefault();
+    this.setState({ value: "" });
+  };
+}
+```
+
+- extends 된 Component 타입을 따라가보자
+
+```ts
+interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {}
+class Component<P, S> {
+  static contextType?: Context<any> | undefined;
+
+  constructor(props: P, context: any);
+  setState<K extends keyof S>(
+    state: ((prevState: Readonly<S>, props: Readonly<P>) => Pick<S, K> | S | null) | (Pick<S, K> | S | null),
+    callback?: () => void
+  ): void;
+
+  forceUpdate(callback?: () => void): void;
+  render(): ReactNode;
+
+  readonly props: Readonly<P>;
+  state: Readonly<S>;
+
+  refs: {
+    [key: string]: ReactInstance;
+  };
+}
+```
+
+- 다음 부분이 가능하게 된 이유를 살펴보자
+
+```ts
+onSubmitForm = (e: FormEvent) => {
+  e.preventDefault();
+  this.setState({ value: "" }); // state 의 프로퍼티가 필수적으로 들어가지 않아도 error 가 나질않음
+};
+```
+
+❓ 왜 그럴까
+
+- 'Pick<S, K> | S | null' 이부분에서의 지정된 타입때문에
+
+```ts
+setState<K extends keyof S>(
+state: ((prevState: Readonly<S>, props: Readonly<P>) => Pick<S, K> | S | null) | (Pick<S, K> | S | null),
+callback?: () => void
+
+): void;
+```
+
+#### ReactElement 와 ReactNode
+
+- 다음과 같이 [class render](#class-components-typing)의 return type은 ReactNode 이지만 [FunctionComponent](#reactfc-functioncomponent) 의 return type은 ReactElement이다
+
+```ts
+// -----class--------------------
+ render(): ReactNode;
+
+// -----FunctionComponent---------
+ (props: P, context?: any): ReactElement<any, any> | null;
+```
+
+- ReactNode 타입을 따라가 보면 ReactNode 는 ReactElement 를 포괄한다.(더욱 다양한 type의 return 값을 가질수 있다.)
+
+```ts
+type ReactNode =
+  | ReactElement
+  | string
+  | number
+  | Iterable<ReactNode>
+  | ReactPortal
+  | boolean
+  | null
+  | undefined
+  | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_REACT_NODES[keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_REACT_NODES];
+```
+
+- 그렇기 때문에 다음과 같은 구조도 가능
+
+```ts
+import { Component, FormEvent } from "react";
+
+interface P {
+  name: string;
+  title: string;
+}
+interface S {
+  word: string;
+  value: string;
+}
+
+class RC extends Component<P, S> {
+  state = {
+    name: "yelim",
+    value: "",
+    result: "",
+    word: "",
+  };
+
+  onSubmitForm = (e: FormEvent) => {
+    e.preventDefault();
+    this.setState({ value: "" });
+  };
+
+  render() {
+    return "hello";
+  }
+}
+
+export const A = () => {
+  return <RC name="myname" title="test" />;
+};
+```
