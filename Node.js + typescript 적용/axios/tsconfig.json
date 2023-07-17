@@ -1,7 +1,0 @@
-{
-  "compilerOptions": {
-    "strict": true,
-    "declaration": true,
-    "lib": ["dom", "es2020"]
-  }
-}
