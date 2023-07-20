@@ -21,11 +21,16 @@ declare global {
 }
 
 /** 이런식으로 바깥으로 뺀다면 문맥적 추론 x */
-const middle: RequestHandler = (req, res, next) => {};
+const middle: RequestHandler = (req, res, next) => {
+  req.name;
+  req.cookies;
+  req.user;
+  req.session;
+};
 app.get("/", middle);
 
-app.use((err, req, res, next) => {
-  console.log(err);
-});
+// app.use((err, req, res, next) => {
+//   console.log(err);
+// });
 
 app.listen(8080, () => {});
