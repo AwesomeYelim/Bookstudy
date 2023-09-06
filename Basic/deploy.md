@@ -1,4 +1,4 @@
-# vercel 배포이루 .env 적용하기
+# vercel 배포이후 .env 적용하기
 
 - gitignore 된.env 파일을 배포이후에도 적용해보자.
 
