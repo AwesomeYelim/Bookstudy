@@ -23,9 +23,9 @@ jobs:
           git config --global user.email "AwesomeYelim"
           git config --global user.name "uiop01900@gmail.com"
           git config --global credential.helper "store --file=.git-credentials"
-          echo "https://github.com:${{ secrets.YELIM_BLOG_KEY  }}" > .git-credentials
+          echo "https://github.com:${{ secrets.MDFILEINTERLOCK  }}" > .git-credentials
         env:
-          TARGET_REPO_TOKEN: ${{ secrets.YELIM_BLOG_KEY   }}
+          TARGET_REPO_TOKEN: ${{ secrets.MDFILEINTERLOCK   }}
 
       - name: Commit and Push
         run: |
@@ -34,4 +34,4 @@ jobs:
           git push https://github.com/AwesomeYelim/hongyelim.git main
 
         env:
-          TARGET_REPO_TOKEN: ${{ secrets.YELIM_BLOG_KEY  }}
+          TARGET_REPO_TOKEN: ${{ secrets.MDFILEINTERLOCK  }}
