@@ -15,7 +15,7 @@ jobs:
       - name: Create MD File
         run: |
           echo "# My New Markdown File" > new-file.md
-        working-directory: AwesomeYelim/Study/$GITHUB_WORKSPACE
+        working-directory: C:\Users\User\Desktop\yelim\Study/$GITHUB_WORKSPACE
 
       - name: Commit and Push
         run: |
