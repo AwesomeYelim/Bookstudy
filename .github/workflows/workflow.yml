@@ -2,9 +2,9 @@ name: Create MD File
 
 on:
   push:
-    branches:
-      - main
-
+    branches: [main]
+    pull_request:
+      branches: [main]
 jobs:
   create-md:
     runs-on: ubuntu-latest
@@ -41,3 +41,4 @@ jobs:
           destination-repository-name: "AwesomeYelim"
           commit-message: "test"
           target-branch: main
+          target-directory: "LeetCode"
