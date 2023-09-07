@@ -21,7 +21,7 @@ jobs:
           # # Set the repository URL
           # REPO_URL="https://github.com/AwesomeYelim/AwesomeYelim.git"
 
-          sh ./build.sh
+          mkdir output.md
           # # Clone the repository using the PAT
           # git clone "$REPO_URL"
 
