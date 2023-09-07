@@ -1,4 +1,4 @@
-name: test github action
+name: Import MD File
 
 on:
   push:
@@ -6,21 +6,19 @@ on:
       - main
 
 jobs:
-  access-repo:
+  import-md:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-      - name: Install mustache (to update the date)
-        # run: apk add ruby && gem install mustache
+      - name: Checkout current repo
+        uses: actions/checkout@v2
 
-      - name: creates output
-        # run: sh ./output.sh
-        run: echo new_folder
-
-        #       - name: create textFile
-        #         run: echo "A beautiful day !!" > [filename].txt
-        #         id: push_directory
-        # uses: cpina/github-action-push-to-another-repository@main
+      - name: Clone external repo
+        run: |
+          git clone https://github.com/AwesomeYelim/AwesomeYelim.git external
         env:
-          API_TOKEN_GITHUB: ${{ secrets.MDFILEINTERLOCK }}
+          TOKEN: ${{ secrets.MDFILEINTERLOCK }}
+
+      - name: Copy MD file
+        run: |
+          cp /destination.md
+        working-directory: $GITHUB_WORKSPACE
