@@ -28,12 +28,12 @@ jobs:
           git config --global credential.helper "store --file=.git-credentials"
           echo "https://github.com:${{ secrets.MDFILEINTERLOCK  }}" > .git-credentials
         env:
-          TARGET_REPO_TOKEN: ${{ secrets.MDFILEINTERLOCK   }}
+          MDFILEINTERLOCK: ${{ secrets.MDFILEINTERLOCK   }}
 
       - name: Commit and Push
         run: |
           git add .
           git commit -m "Create new Markdown file"
-          git push https://AwesomeYelim:MDFILEINTERLOCK@github.com/AwesomeYelim/AwesomeYelim.git
+          git push https://AwesomeYelim:MDFILEINTERLOCK@github.com/AwesomeYelim/AwesomeYelim.git main
         env:
-          TARGET_REPO_TOKEN: ${{ secrets.MDFILEINTERLOCK  }}
+          MDFILEINTERLOCK: ${{ secrets.MDFILEINTERLOCK  }}
