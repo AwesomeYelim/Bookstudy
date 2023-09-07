@@ -77,9 +77,9 @@ jobs:
           git config --global user.email "uiop01900@gmail.com"
           git config --global user.name "AwesomeYelim"
           git config --global credential.helper "store --file=.git-credentials"
-          echo "https://github.com:${{ secrets.mdfileInterlock  }}" > .git-credentials
+          echo "https://github.com:${{ secrets.MDFILEINTERLOCK  }}" > .git-credentials
         env:
-          API_TOKEN_GITHUB: ${{ secrets.mdfileInterlock  }}
+          API_TOKEN_GITHUB: ${{ secrets.MDFILEINTERLOCK  }}
 
       - name: Commit and Push
         id: push_directory
