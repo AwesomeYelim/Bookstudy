@@ -36,8 +36,9 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.MDFILEINTERLOCK  }}
         with:
-          source-directory: "AwesomeYelim"
+          source-directory: "output"
           destination-github-username: "AwesomeYelim"
           destination-repository-name: "AwesomeYelim"
-          commit-message: ${{ github.event.commits[0].message }}
+          commit-message: "test"
           target-branch: main
+          target-directory: "LeetCode"
