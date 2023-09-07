@@ -25,13 +25,14 @@ jobs:
           git config --global credential.helper "store --file=.git-credentials"
           echo "https://github.com:${{ secrets.MDFILEINTERLOCK }}" > .git-credentials
         env:
-          TARGET_REPO_TOKEN: ${{ secrets.MDFILEINTERLOCK }}
+          TARGET_REPO_TOKEN: ${{ secrets.MDFILEINTERLOCK  }}
 
       - name: Commit and Push
         run: |
           git add .
           git commit -m "Create new Markdown file"
-          git push https://TOKEN@github.com/AwesomeYelim/hongyelim.git main
-
+          git push https://github.com/AwesomeYelim/hongyelim.git main
+        permissions:
+          contents: write
         env:
           TARGET_REPO_TOKEN: ${{ secrets.MDFILEINTERLOCK }}
