@@ -15,9 +15,9 @@ jobs:
 
       - name: Access Another Repository
         run: |
-          FILENAME="newfile.txt"
+          FILENAME=[filename].txt
 
-          echo "$FILENAME"
+          echo "A beautiful day !!" > [filename].txt
 
           # Add, commit, and push the new file
           git add "$FILENAME"
