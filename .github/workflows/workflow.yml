@@ -41,4 +41,3 @@ jobs:
           destination-repository-name: "AwesomeYelim"
           commit-message: "test"
           target-branch: main
-          target-directory: "LeetCode"

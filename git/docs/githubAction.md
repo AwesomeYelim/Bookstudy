@@ -53,9 +53,9 @@ name: Create MD File
 
 on:
   push:
-    branches:
-      - main
-
+    branches: [main]
+    pull_request:
+      branches: [main]
 jobs:
   create-md:
     runs-on: ubuntu-latest
@@ -63,6 +63,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
 
       - name: Create MD File
         run: |
@@ -71,21 +74,25 @@ jobs:
 
       - name: Set up Git credentials
         run: |
-          git config --global user.email "AwesomeYelim"
-          git config --global user.name "uiop01900@gmail.com"
+          git config --global user.email "uiop01900@gmail.com"
+          git config --global user.name "AwesomeYelim"
           git config --global credential.helper "store --file=.git-credentials"
-          echo "https://github.com:${{ secrets.MDFILEINTERLOCK }}" > .git-credentials
+          echo "https://github.com:${{ secrets.mdfileInterlock  }}" > .git-credentials
         env:
-          TARGET_REPO_TOKEN: ${{ secrets.MDFILEINTERLOCK }}
+          API_TOKEN_GITHUB: ${{ secrets.mdfileInterlock  }}
 
       - name: Commit and Push
-        run: |
-          git add .
-          git commit -m "Create new Markdown file"
-          git push https://TOKEN@github.com/AwesomeYelim/hongyelim.git main
-
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
         env:
-          TARGET_REPO_TOKEN: ${{ secrets.MDFILEINTERLOCK }}
+          API_TOKEN_GITHUB: ${{ secrets.MDFILEINTERLOCK  }}
+        with:
+          source-directory: "."
+          destination-github-username: "AwesomeYelim"
+          destination-repository-name: "AwesomeYelim"
+          commit-message: "test"
+          target-branch: main
+          target-directory: "LeetCode"
 ```
 
 ## githubAction 사용하여 다른 repository 와 동기화 시키기
@@ -93,3 +100,5 @@ jobs:
 > 참고
 
      https://vanilla-van-6e4.notion.site/vercel-47312c7c2a9c492dbdabc40c47489cfa
+
+     https://velog.io/@rmaomina/github-actions-file-sync#%EC%84%B1%EA%B3%B5
