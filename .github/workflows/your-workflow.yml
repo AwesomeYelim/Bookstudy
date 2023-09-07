@@ -1,27 +1,32 @@
-name: Access Another Repository
+name: Create File on Push
 
 on:
   push:
     branches:
-      - main
+      - main # Change this to the branch where you want to trigger the action
 
 jobs:
-  access-repo:
+  create-file:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Access Another Repository
+      - name: Create File
         run: |
-          FILENAME=[filename].txt
+          # Generate content for the new file (e.g., a timestamp)
+          CONTENT="File created on $(date)"
 
-          echo "A beautiful day !!" > [filename].txt
+          # Set the filename and path
+          FILENAME="newfile-$(date +%Y%m%d%H%M%S).txt"
+
+          # Create the file with the content
+          echo "$CONTENT" > "$FILENAME"
 
           # Add, commit, and push the new file
           git add "$FILENAME"
           git commit -m "Add $FILENAME"
           git push
         env:
-          MDFILEINTERLOCK: ${{ secrets.MDFILEINTERLOCK }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
