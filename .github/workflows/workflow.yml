@@ -34,7 +34,7 @@ jobs:
         run: |
           git add .
           git commit -m "Create new Markdown file"
-          git push https://TOKEN@github.com/AwesomeYelim/AwesomeYelim.git main
+          git push https://github.com/AwesomeYelim/AwesomeYelim.git main
         working-directory: ./
         env:
           TARGET_REPO_TOKEN: ${{ secrets.MDFILEINTERLOCK  }}
