@@ -15,7 +15,7 @@ jobs:
       - name: Create MD File
         run: |
           echo "# My New Markdown File" > new-file.md
-        working-directory: ./SEO
+        working-directory: ./
 
       - name: Commit and Push
         run: |
