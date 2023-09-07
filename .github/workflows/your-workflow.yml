@@ -14,17 +14,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Access Another Repository
-        run: |
-          # Set up the Personal Access Token (MDFILEINTERLOCK)
-          MDFILEINTERLOCK="${{ secrets.MDFILEINTERLOCK }}"
-
-          # # Set the repository URL
-          # REPO_URL="https://github.com/AwesomeYelim/AwesomeYelim.git"
-
-          mkdir output.md
-          # # Clone the repository using the PAT
-          # git clone "$REPO_URL"
-
-          # Now you have access to the cloned repository
+        run: mkdir output.md
         env:
           MDFILEINTERLOCK: ${{ secrets.MDFILEINTERLOCK }}
