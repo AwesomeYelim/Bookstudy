@@ -21,6 +21,6 @@ jobs:
         run: |
           git config --global user.name "AwesomeYelim"
           git config --global user.email "uiop01900@gmail.com"
-          git add new-file.md
+          git add .
           git commit -m "Create new Markdown file"
           git push
