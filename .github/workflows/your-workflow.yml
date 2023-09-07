@@ -18,11 +18,12 @@ jobs:
           # Set up the Personal Access Token (MDFILEINTERLOCK)
           MDFILEINTERLOCK="${{ secrets.MDFILEINTERLOCK }}"
 
-          # Set the repository URL
-          REPO_URL="https://github.com/AwesomeYelim/AwesomeYelim.git"
+          # # Set the repository URL
+          # REPO_URL="https://github.com/AwesomeYelim/AwesomeYelim.git"
 
-          # Clone the repository using the PAT
-          git clone "$REPO_URL"
+          sh ./build.sh
+          # # Clone the repository using the PAT
+          # git clone "$REPO_URL"
 
           # Now you have access to the cloned repository
         env:
