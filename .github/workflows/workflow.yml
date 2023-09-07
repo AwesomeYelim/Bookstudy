@@ -31,9 +31,13 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.MDFILEINTERLOCK   }}
 
       - name: Commit and Push
-        run: |
-          git add .
-          git commit -m "Create new Markdown file"
-          git push https://AwesomeYelim:MDFILEINTERLOCK@github.com/AwesomeYelim/AwesomeYelim.git main
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.MDFILEINTERLOCK  }}
+        with:
+          source-directory: "AwesomeYelim"
+          destination-github-username: "AwesomeYelim"
+          destination-repository-name: "AwesomeYelim"
+          commit-message: ${{ github.event.commits[0].message }}
+          target-branch: main
