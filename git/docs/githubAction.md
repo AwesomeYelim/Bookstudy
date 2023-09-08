@@ -97,6 +97,54 @@ jobs:
 
 ## githubAction 사용하여 다른 repository 와 동기화 시키기
 
+- 최상단 루트에 다음 builde.sh 파일을 생성해준다.
+
+```sh
+#!/bin/sh
+# cd ../
+mkdir output
+cp -R ./Basic/* ./output
+cp -R ./output ./Basic
+```
+
+- workflow.yml 파일에 가서 다음과 같이 입력
+
+```yml
+name: MD File Interlock
+
+on:
+  push:
+    branches: [main]
+    pull_request:
+      branches: [main]
+jobs:
+  create-md:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: creates output
+        run: sh ./build.sh
+
+      - name: Commit and Push
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.MDFILEINTERLOCK  }}
+        with:
+          source-directory: "output"
+          destination-github-username: "AwesomeYelim"
+          destination-repository-name: "AwesomeYelim"
+          commit-message: "test"
+          target-branch: main
+          target-directory: "yelimtest"
+```
+
 > 참고
 
      https://vanilla-van-6e4.notion.site/vercel-47312c7c2a9c492dbdabc40c47489cfa
