@@ -3,8 +3,8 @@ name: Create MD File
 on:
   push:
     branches: [main]
-    pull_request:
-      branches: [main]
+  pull_request:
+    branches: [main]
 jobs:
   create-md:
     runs-on: ubuntu-latest
@@ -27,7 +27,7 @@ jobs:
         with:
           source-directory: "output"
           destination-github-username: "AwesomeYelim"
-          destination-repository-name: "AwesomeYelim"
-          commit-message: "test"
+          destination-repository-name: "hongyelim"
+          commit-message: "mdFileInterlocked📚"
           target-branch: main
-          target-directory: "yelimtest"
+          target-directory: "data1"
