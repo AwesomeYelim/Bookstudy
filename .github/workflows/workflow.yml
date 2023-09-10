@@ -43,9 +43,7 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             --d '{
               "ref": "main",
-              "inputs": {
-                "environment": "your_environment_value_here"
-              }
+              "inputs": {}
             }' \
             https://api.github.com/repos/AwesomeYelim/hongyelim/actions/workflows/test_action.yml/dispatches
         env:
