@@ -30,4 +30,4 @@ jobs:
           destination-repository-name: "hongyelim"
           commit-message: "mdFileInterlocked📚"
           target-branch: main
-          target-directory: "data1"
+          target-directory: "data/mdtest"
