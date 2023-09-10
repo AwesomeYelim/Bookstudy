@@ -5,6 +5,10 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+
+  repository_dispatch: # Add this section
+    types: [run-test-script] # Specify the custom event type
+
 jobs:
   create-md:
     runs-on: ubuntu-latest
