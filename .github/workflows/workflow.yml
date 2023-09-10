@@ -42,6 +42,6 @@ jobs:
             -H "Authorization: token ${{ secrets.MDFILEINTERLOCK }}" \
             -H "Accept: application/vnd.github.v3+json" \
             -d '{"ref": "main"}' \
-            https://api.github.com/repos/hongyelim/hongyelim/actions/workflows/test_action.yml/dispatches
+            https://api.github.com/repos/AwesomYelim/hongyelim/actions/workflows/test_action.yml/dispatches
         env:
           API_TOKEN_GITHUB: ${{ secrets.MDFILEINTERLOCK }}
