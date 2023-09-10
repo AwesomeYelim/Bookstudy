@@ -187,11 +187,31 @@ find ./* -type f -name "b_*.md" ! -path "*/node_modules/*" -exec sh -c 'cp "$1" 
 - 그 다음 study를 push 할때마다 트리거 가능한 파일을 hongyelim 내부에 생성한다.
 
 - `[hongyelimrepo]`.github/workflow/test_action.yml 파일 생성
+- src/app/test.ts 경로의 ts 파일을 실행하려고 함
 
 ```yml
 name: Execute Test Script
 
 on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: "Log level"
+        required: true
+        default: "warning"
+        type: choice
+        options:
+          - info
+          - warning
+          - debug
+      tags:
+        description: "Test scenario tags"
+        required: false
+        type: boolean
+      environment:
+        description: "Environment to run tests against"
+        type: environment
+        required: true
   repository_dispatch:
     types: [run-test-script]
 
@@ -203,8 +223,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Install TypeScript # github action 환경에서 따로 설치 해주어야함
+        run: yarn add typescript --dev
+
+      - name: Install ts-node # github action 환경에서 따로 설치 해주어야함
+        run: yarn global add ts-node
+
       - name: Run Test Script
-        run: yarn ts-node src/app/test.ts
+        run: $(yarn global bin)/ts-node src/app/test.ts
 ```
 
 - `[Studyrepo]` yml 파일에 다음을 추가
@@ -220,3 +246,5 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.MDFILEINTERLOCK }}
 ```
+
+-
