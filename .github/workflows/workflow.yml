@@ -34,7 +34,7 @@ jobs:
           destination-repository-name: "hongyelim"
           commit-message: "mdFileInterlocked📚"
           target-branch: main
-          target-directory: "data/mdtest"
+          target-directory: "data/md"
 
       - name: Trigger "hongyelim" Workflow
         run: |
