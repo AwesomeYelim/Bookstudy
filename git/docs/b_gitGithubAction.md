@@ -186,18 +186,81 @@ find ./* -type f -name "b_*.md" ! -path "*/node_modules/*" -exec sh -c 'cp "$1" 
 - 우선 test script를 만들어서 hongyelim 내부에서 실행 시켜보자
 - 그 다음 study를 push 할때마다 트리거 가능한 파일을 hongyelim 내부에 생성한다.
 
+- `[hongyelimrepo]`.github/workflow/test_action.yml 파일 생성 => src/app/dataInterlock.ts 경로의 ts 파일을 실행하려고 함
+
+- dataInterlock.ts 파일 생성
+
+```ts
+// src/app/dataInterlock.ts
+
+import { db } from "./firebase";
+import { doc, getDocs, setDoc, collection } from "firebase/firestore";
+import { Post } from "@/service/posts";
+import fs from "fs";
+import path from "path";
+
+async function dataInterlock() {
+  const fireposts = await getDocs(collection(db, "posts"));
+
+  let posts: Post[] = [];
+
+  /** firebase 에 있는 data 배열 */
+  fireposts.forEach((doc) => {
+    posts.push(doc.data() as Post);
+  });
+
+  /** firebase 에 있는 data 배열의 titles */
+  const postTitles = posts.map((el) => el.title);
+
+  /** md 폴더에 있는 md file list */
+  const existingMd = fs.readdirSync(path.join(process.cwd(), "data", "md")).map((el) => el.split(".")[0]);
+
+  /** md file list 기준으로 firebase 에 없는 title 구분  */
+  const differTargets = existingMd.filter((mdTitle) => !postTitles.includes(mdTitle));
+
+  if (differTargets.length) {
+    differTargets.forEach(async (title) => {
+      const postData = doc(db, "posts", title);
+      const mdPath = path.join(process.cwd(), "data", "md", `${title}.md`);
+
+      let mdFile: Buffer | string;
+      mdFile = fs.readFileSync(mdPath);
+      mdFile = mdFile.toString();
+
+      const splitTitles = title.split(/(?<=[a-z])(?=[A-Z])/);
+
+      const restLetter = splitTitles.shift();
+
+      await setDoc(postData, {
+        id: posts.length + 1,
+        title,
+        content: mdFile.match(/#+\s(.+)/g)?.[0] || "", // mdfile contents 의 시작글
+        post_title: `[${restLetter}]${[...splitTitles].join("")}` || "",
+        heart: {},
+        heart_count: 0,
+        created_at: Math.floor(new Date().getTime() / 1000),
+        tag: splitTitles || [], // camelcase 중간대문자 기준으로 tag 생성
+        comments: [],
+      });
+    });
+  }
+  return;
+}
+
+dataInterlock();
+```
+
 - `[hongyelimrepo]`.github/workflow/test_action.yml 파일 생성
-- src/app/test.ts 경로의 ts 파일을 실행하려고 함
 
 ```yml
-name: Execute Test Script
+name: Execute data interlock
 
 on:
   workflow_dispatch:
     inputs:
       logLevel:
         description: "Log level"
-        required: true
+        required: false
         default: "warning"
         type: choice
         options:
@@ -211,7 +274,7 @@ on:
       environment:
         description: "Environment to run tests against"
         type: environment
-        required: true
+        required: false
   repository_dispatch:
     types: [run-test-script]
 
@@ -223,28 +286,96 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install TypeScript # github action 환경에서 따로 설치 해주어야함
+      - name: Install TypeScript
         run: yarn add typescript --dev
 
-      - name: Install ts-node # github action 환경에서 따로 설치 해주어야함
+      - name: Install ts-node
         run: yarn global add ts-node
 
       - name: Run Test Script
-        run: $(yarn global bin)/ts-node src/app/test.ts
+        run: $(yarn global bin)/ts-node src/app/dataInterlock.ts
 ```
 
 - `[Studyrepo]` yml 파일에 다음을 추가
 
 ```yml
-- name: Trigger "hongyelim" Workflow
+name: Create MD File
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  repository_dispatch: # Add this section
+    types: [run-test-script] # Specify the custom event type
+
+jobs:
+  create-md:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: creates output
+        run: sh ./build.sh
+
+      - name: Commit and Push
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.MDFILEINTERLOCK  }}
+        with:
+          source-directory: "output"
+          destination-github-username: "AwesomeYelim"
+          destination-repository-name: "hongyelim"
+          commit-message: "mdFileInterlocked📚"
+          target-branch: main
+          target-directory: "data/md"
+
+      - name: Trigger "hongyelim" Workflow
         run: |
           curl -X POST \
             -H "Authorization: token ${{ secrets.MDFILEINTERLOCK }}" \
             -H "Accept: application/vnd.github.v3+json" \
             -d '{"ref": "main"}' \
-            https://api.github.com/repos/hongyelim/hongyelim/actions/workflows/test_action.yml/dispatches
+            https://api.github.com/repos/AwesomeYelim/hongyelim/actions/workflows/data_interlock.yml/dispatches
         env:
           API_TOKEN_GITHUB: ${{ secrets.MDFILEINTERLOCK }}
 ```
 
--
+## 동기화 과정(총 정리)
+
+> 요약 ) `Study` repository mdfile <=> `hongyelim` repository mdfile <=> `firebase` data object
+
+1. `Study` repository 에서 md 파일을 수정
+
+2. `Study` 에 있는 (github Action) workflow.yml 실행 process
+
+   - `[creates output]` build.sh 파일 실행 : output 파일 생성 -> 디렉토리 내의 `b_` 로 시작되는 파일들을 `_` 기준 split 한 마지막 요소 이름으로 복사
+
+   - `[Commit and Push]` `hongyelim` repository 에 접근 및 `main` branch 에 있는 `data/md` 디렉토리에 `output` 폴더 내부 파일들을 push
+
+   - `[Trigger "hongyelim" Workflow]` `hongyelim` repository 에 접근 및 내부 action 파일(data_interlock.yml)을 실행해줌
+
+3. `hongyelim` 에 있는 (github Action) data_interlock.yml 실행 process
+
+- `workflow_dispatch` 에서 `[Trigger "hongyelim" Workflow]` action을 받음
+
+- `run-script` 내의 `steps` 들을 진행한다.( githubaction 환경이라는 점을 기억하자..)
+
+  1.  `[Install TypeScript]`에서 TypeScript 설치
+
+  2.  `[Install ts-node]` ts-node 설치
+
+  3.  `[Run Test Script]` githubaction 환경에서 dataInterlock.ts를 실행 시키기 위해서는 yarn 에 global 변수 선언을 해주어야함
+
+  `$(yarn global bin)/ts-node src/app/dataInterlock.ts`
+
+4. `dataInterlock.ts` 진행 process
+
+   - 생성된 md files 기준으로 부합되지 않는 data 가 없다면 비교하여 자동추가해준다(위의 script 참조)
