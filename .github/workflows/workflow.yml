@@ -23,7 +23,7 @@ jobs:
       - name: creates output
         run: sh ./build.sh
 
-      - name: Commit and Push
+      - name: Mdfile Commit and Push
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
         env:
@@ -32,9 +32,25 @@ jobs:
           source-directory: "output"
           destination-github-username: "AwesomeYelim"
           destination-repository-name: "hongyelim"
-          commit-message: "mdFileInterlocked📚"
+          commit-message: "mdFile_Interlocked📚"
           target-branch: main
           target-directory: "data/md"
+
+      - name: creates imgcopy
+        run: sh ./imgcopy.sh
+
+      - name: Imgfile Commit and Push
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.MDFILEINTERLOCK  }}
+        with:
+          source-directory: "mdimg"
+          destination-github-username: "AwesomeYelim"
+          destination-repository-name: "hongyelim"
+          commit-message: "mdimgFile_Interlocked💫"
+          target-branch: main
+          target-directory: "public/images/md"
 
       - name: Trigger "hongyelim" Workflow
         run: |
