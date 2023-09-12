@@ -24,7 +24,7 @@ jobs:
         run: sh ./build.sh
 
       - name: Mdfile Commit and Push
-        id: push_directory
+        id: push_md
         uses: cpina/github-action-push-to-another-repository@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.MDFILEINTERLOCK  }}
@@ -40,7 +40,7 @@ jobs:
         run: sh ./imgcopy.sh
 
       - name: Imgfile Commit and Push
-        id: push_directory
+        id: push_img
         uses: cpina/github-action-push-to-another-repository@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.MDFILEINTERLOCK  }}
