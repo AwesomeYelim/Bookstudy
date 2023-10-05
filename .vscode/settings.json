@@ -1,3 +1,11 @@
 {
-    "git.ignoreLimitWarning": true
+  "pasteImage.defaultName": "${currentFileNameWithoutExt}s",
+  "pasteImage.basePath": "${projectRoot}",
+  "pasteImage.path": "${currentFileDir}/img",
+  "pasteImage.namePrefix": "",
+  "pasteImage.forceUnixStyleSeparator": true,
+  "pasteImage.insertPattern": "![${imageFileNameWithoutExt}](./img/${imageFileName})",
+  "pasteImage.prefix": "/",
+  "pasteImage.filePathConfirmInputBoxMode": "onlyName",
+  "pasteImage.showFilePathConfirmInputBox": true
 }
