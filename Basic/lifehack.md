@@ -7,7 +7,7 @@
 1. 우선 F12를 눌러 개발자 도구를 켜준다.
 
 2. 오른쪽 상단에 톱니바퀴 들어감
-   <img src='./img/b_developertool1.png'/>
+   ![b_developertool1](./img/b_developertool1.png)
 
 3. preference에 debugger 에 disabled javascript를 체크해줌
-   <img src='./img/b_developertool2.png'/>
+   ![b_developertool2](./img/b_developertool2.png)

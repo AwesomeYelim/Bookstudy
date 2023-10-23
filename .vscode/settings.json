@@ -7,5 +7,10 @@
   "pasteImage.insertPattern": "![${imageFileNameWithoutExt}](./img/${imageFileName})",
   "pasteImage.prefix": "/",
   "pasteImage.filePathConfirmInputBoxMode": "onlyName",
-  "pasteImage.showFilePathConfirmInputBox": true
+  "pasteImage.showFilePathConfirmInputBox": true,
+  "markdownlint.config": {
+    "MD033": {
+      "allowed_elements": ["details", "summary", "div", "mark"]
+    }
+  }
 }
