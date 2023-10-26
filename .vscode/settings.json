@@ -11,6 +11,7 @@
   "markdownlint.config": {
     "MD033": {
       "allowed_elements": ["details", "summary", "div", "mark"]
-    }
+    },
+    "editor.quickSuggestions": true
   }
 }
