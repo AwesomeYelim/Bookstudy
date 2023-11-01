@@ -1,5 +1,5 @@
 {
-  "pasteImage.defaultName": "${currentFileNameWithoutExt}s",
+  "pasteImage.defaultName": "${currentFileNameWithoutExt}hs",
   "pasteImage.basePath": "${projectRoot}",
   "pasteImage.path": "${currentFileDir}/img",
   "pasteImage.namePrefix": "",
