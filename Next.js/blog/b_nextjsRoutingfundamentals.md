@@ -50,7 +50,7 @@ router.push("/dashboard", { scroll: false });
 
 - 폴더를 `(foldername)` (경로그룹) 으로 표시할 경우 경로 URL 에 포함되지 않는다.
 
-![nextjsRoutingFundamentals4](./img/nextjsRoutingFundamentals4.png)
+![b_nextjsRoutingFundamentals4](./img/b_nextjsRoutingFundamentals4.png)
 
 ## 05. Dynamic Routes
 
@@ -58,7 +58,7 @@ router.push("/dashboard", { scroll: false });
 
 - 대괄호 안에 `...`를 추가하면 동적 세그먼트를 모든 후속 세그먼트 로 확장할 수 있다. `[...folderName]`
 
-![nextjsRoutingFundamentals48](./img/nextjsRoutingFundamentals48.png)
+![b_nextjsRoutingFundamentals48](./img/b_nextjsRoutingFundamentals48.png)
 
 ### Optional Catch-all Segments
 
@@ -68,17 +68,17 @@ router.push("/dashboard", { scroll: false });
 
 - `Optional Catch-all Segments`을 사용하면 매개변수가 없는 경로도 일치하게 된다.
 
-![nextjsRoutingFundamentals13](./img/nextjsRoutingFundamentals13.png)
+![b_nextjsRoutingFundamentals13](./img/b_nextjsRoutingFundamentals13.png)
 
 ## 06. Parallel Routes
 
 - 병렬 라우팅을 사용하면 동일한 레이아웃에서 하나 이상의 페이지를 동시에 또는 조건부로 렌더링할 수 있다.
 
-![nextjsRoutingFundamentals27](./img/nextjsRoutingFundamentals27.png)
+![b_nextjsRoutingFundamentals27](./img/b_nextjsRoutingFundamentals27.png)
 
 - 경로가 독립적으로 스트리밍될 때 각 경로에 대해 독립적인 오류 및 로드 상태를 정의할 수 있다.
 
-![nextjsRoutingFundamentals23](./img/nextjsRoutingFundamentals23.png)
+![b_nextjsRoutingFundamentals23](./img/b_nextjsRoutingFundamentals23.png)
 
 ### Conditional Routes
 
@@ -106,7 +106,7 @@ export default function Layout({ dashboard, login }: { dashboard: React.ReactNod
 - (..)(..) : 두 수준 위의 세그먼트와 일치
 - (...) : 루트 app 디렉터리 의 세그먼트를 일치
 
-![nextjsRoutingFundamentals3](./img/nextjsRoutingFundamentals3.png)
+![b_nextjsRoutingFundamentals3](./img/b_nextjsRoutingFundamentals3.png)
 
 ## 08. Route Handlers
 

@@ -1,4 +1,4 @@
-# node 의 기능
+# 02. node 의 속성
 
 ## REPL
 
@@ -15,7 +15,7 @@
 - 노드는 코드를 모듈로 만들 수 있다는 점에서 브라우저의 자바스크립트와는 다르다.
 - 보통 파일 하나가 모듈 하나가 되며, 파일별로 코드를 모듈화할 수 있어 관리하기 편합니다.
 
-![0025](./img/0025.png)
+![nodePropertise5](./img/nodePropertise5.png)
 
 - 노드에서는 두 가지 형식의 모듈을 사용하는데, 하나는 `CommonJS 모듈`이고 다른 하나는 `ECMAScript 모듈` 이다.
 
@@ -23,12 +23,12 @@
 
 - `CommonJS` 모듈은 표준 자바스크립트 모듈은 아니지만 노드 생태계에서 가장 널리 쓰이는 모듈이다.
 
-![00251](./img/00251.png)
+![nodePropertise51](./img/nodePropertise51.png)
 
 - `module.exports`와 `exports`가 같은 객체를 참조
 - `console.log(module.exports === exports)`를 하면 `true`가 나온다.
 
-![00245](./img/00245.png)
+![nodePropertise45](./img/nodePropertise45.png)
 
 ### 노드에서 this는 무엇일까?
 
@@ -128,7 +128,23 @@ dep1 {}
 - `require`와 `exports`, `module.exports`가 각각 `import`, `export`, `export default`로 바뀌었다.
 
 - 두 모듈 형식의 차이
-  ![002656](./img/002656.png)
+  ![nodePropertise656](./img/nodePropertise656.png)
+
+- 사용방법
+
+1. `<script type="module">` 다음과 같이 태그를 지정
+
+```html
+<script type="module" src="anotherFile.js"></script>
+```
+
+2. 다른 JavaScript 파일에서 ES 모듈을 가져옴.
+
+3. Node.js에서 ESM 모듈 실행(확장명 .mjs 사용)
+
+```sh
+node anotherFile.mjs
+```
 
 ### 다이내믹 임포트
 
@@ -167,4 +183,13 @@ if (a) {
 ```
 
 - 🚩 결괏값 함께 확인
+
   > `export default`의 경우 import할 때도 `default`라는 속성 이름으로 import됩니다. 참고로 `CommonJS` 모듈에서 `module.exports`한 것도 `default`라는 이름으로 import됩니다.
+
+- `__filename`, `__dirname` (노드에서 기본적으로 제공하는 내장 객체)
+
+  > 노드에서는 파일 사이에 모듈 관계가 있는 경우가 많으므로 현재 파일의 경로나 파일명을 알아야 하는 경우가 있다.
+
+  > 파일에 `__filename`과 `__dirname`을 넣어두면 실행 시 현재 파일명과 현재 파일 경로로 바뀐다.
+
+  > 💫참고로 ES 모듈에서는 `__filename`과 `__dirname`을 사용할 수 없다. 대신 `import.meta.url`로 경로를 가져올 수 있다.
