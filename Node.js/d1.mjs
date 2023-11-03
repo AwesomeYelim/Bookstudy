@@ -13,17 +13,17 @@ console.log(import.meta.url);
 // }
 
 // 🚩 process
-const { version, arch, platform, pid, execPath, uptime, cwd, cpuUsage } = process;
-console.log({
-  version,
-  arch,
-  platform,
-  pid,
-  execPath,
-  uptime: uptime(),
-  cwd: cwd(),
-  cpuUsage: cpuUsage(),
-});
+// const { version, arch, platform, pid, execPath, uptime, cwd, cpuUsage } = process;
+// console.log({
+//   version,
+//   arch,
+//   platform,
+//   pid,
+//   execPath,
+//   uptime: uptime(),
+//   cwd: cwd(),
+//   cpuUsage: cpuUsage(),
+// });
 
 // {
 //     version: 'v16.14.0', // 설치된 노드 버전
@@ -35,3 +35,9 @@ console.log({
 //     cwd: 'C:\\Users\\User\\Desktop\\yelim\\Study\\Node.js',// 현재 프로세스가 실행되는 위치
 //     cpuUsage: { user: 31000, system: 15000 } // 현재 cpu 사용량
 //   }
+
+import { pipeline } from "stream/promises";
+import zlib from "zlib";
+import fs from "fs";
+
+await pipeline(fs.createReadStream("./hh.txt"), zlib.createGzip(), fs.createWriteStream("./readme4.txt.gz"));

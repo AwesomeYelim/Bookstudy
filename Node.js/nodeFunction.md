@@ -200,3 +200,220 @@ console.log('url.format():', url.format(myURL));
 ### 노드에서 멀티 스레드 방식으로 작업하는 방법(worker_threads)
 
 - 사용경우는 극히 드물다. cpu 를 많이 쓰는 작업에서만 진행
+- 간단히 소수찾기 (에라토스테네스의 채) 로 성능분석을 해보게 되면 worker_threads 사용시에 5배 정도 빠른 속도를 확인할 수 있다.
+- `worker_threads` 를 많이 돌린다고 해서 비례해서 성능이 빨라 지진 않는다. (✋ 적재 적시에 사용할것)
+
+<details>
+<summary>sigle 로 돌렸을 경우(워커 스레드를 사용하지 않은 경우) </summary>
+<div markdown="1">
+
+```js
+
+const min = 2;
+const max = 10000000;
+const primes = [];
+
+function findPrimes(start, range) {
+  let isPrime = true;
+  const end = start + range;
+  for (let i = start; i < end; i++) {
+    for (let j = min; j <div Math.sqrt(end); j++) {
+      if (i !== j && i % j === 0) {
+        isPrime = false;
+        break;
+      }
+    }
+    if (isPrime) {
+      primes.push(i);
+    }
+    isPrime = true;
+  }
+}
+
+console.time("prime");
+findPrimes(min, max);
+console.timeEnd("prime");
+console.log(primes.length);
+
+// prime: 3.271s
+// 664579
+```
+
+</div>
+
+</details>
+
+<details>
+<summary>multi 로 돌렸을 경우(워커 스레드를 사용) </summary>
+
+<div markdown="2">
+
+```js
+const { Worker, isMainThread, parentPort, workerData } = require("worker_threads");
+
+const min = 2;
+let primes = [];
+
+function findPrimes(start, range) {
+  let isPrime = true;
+  const end = start + range;
+  for (let i = start; i < end; i++) {
+    for (let j = min; j < Math.sqrt(end); j++) {
+      if (i !== j && i % j === 0) {
+        isPrime = false;
+        break;
+      }
+    }
+    if (isPrime) {
+      primes.push(i);
+    }
+    isPrime = true;
+  }
+}
+
+if (isMainThread) {
+  const max = 10000000;
+  const threadCount = 8;
+  const threads = new Set();
+  const range = Math.floor((max - min) / threadCount);
+  let start = min;
+  console.time("prime");
+  for (let i = 0; i < threadCount - 1; i++) {
+    const wStart = start;
+    threads.add(new Worker(__filename, { workerData: { start: wStart, range } }));
+    start += range;
+  }
+  threads.add(new Worker(__filename, { workerData: { start, range: max - start } }));
+  for (let worker of threads) {
+    worker.on("error", (err) => {
+      throw err;
+    });
+    worker.on("exit", () => {
+      threads.delete(worker);
+      if (threads.size === 0) {
+        console.timeEnd("prime");
+        console.log(primes.length);
+      }
+    });
+    worker.on("message", (msg) => {
+      primes = primes.concat(msg);
+    });
+  }
+} else {
+  findPrimes(workerData.start, workerData.range);
+  parentPort.postMessage(primes);
+}
+
+// prime: 654.893ms
+// 664579
+```
+
+</div>
+</details>
+
+![nodeFunction1124](./img/nodeFunction1124.png)
+
+### child_process
+
+- 노드에서 다른 프로그램을 실행하고 싶거나 명령어를 수행하고 싶을 때 사용하는 모듈
+- 다음 모듈을 통해 터미널 직접실행 가능
+- 명령 프롬프트나 파워셸에서 한글이 제대로 표시되지 않는 경우에는 다음 명령어를 입력해 터미널을 utf8로 바꾼 뒤 다시 실행하면 된다.
+
+```sh
+chcp 65001
+```
+
+<details>
+<summary>참고 코드 </summary>
+
+<div markdown="1">
+
+```js
+// 터미널에 dir 입력하는것과 node 파일이름 으로 실행하는것 과 같음
+
+const { exec } = require("child_process");
+
+const process = exec("dir"); // 리눅스나 맥이라면 exec('ls')를 대신 입력하면 된다.
+
+process.stdout.on("data", function (data) {
+  console.log(data.toString());
+}); // 실행 결과
+
+process.stderr.on("data", function (data) {
+  console.error(data.toString());
+}); // 실행 에러
+```
+
+</div>
+</details>
+
+<details>
+<summary>결괏값 </summary>
+
+<div markdown="1">
+
+```sh
+2023-11-02  오전 11:17    <DIR>          .
+2023-11-02  오전 11:17    <DIR>          ..
+2023-11-03  오후 12:03               524 d1.js
+2023-11-03  오전 11:38             1,428 d1.mjs
+2023-11-02  오전 11:04             1,241 d2.js
+2023-11-01  오후 06:18                82 dr.js
+2023-11-03  오전 11:44    <DIR>          img
+2023-11-02  오전 10:20             2,246 nodeBasis.md
+2023-11-03  오후 12:01            12,032 nodeFunction.md
+2023-11-02  오전 11:18             6,750 nodePropertise.md
+               7개 파일              24,303 바이트
+               3개 디렉터리  285,788,401,664 바이트 남음
+```
+
+</div>
+</details>
+
+- 노드에서 다른 확장자(python) 실행기 - 실행해 달라고 요청하는것 뿐(언어가 설치되어있어야함)
+
+<details>
+<summary>참고 코드 </summary>
+
+<div markdown="1">
+
+```js
+const { spawn } = require("child_process");
+
+const process = spawn("python", ["test.py"]);
+
+process.stdout.on("data", function (data) {
+  console.log(data.toString());
+}); // 실행 결과
+
+process.stderr.on("data", function (data) {
+  console.error(data.toString());
+}); // 실행 에러
+```
+
+</div>
+</details>
+
+### 기타 모듈들
+
+• async_hooks: 비동기 코드의 흐름을 추적할 수 있는 실험적인 모듈입니다.
+
+• dgram: UDP와 관련된 작업을 할 때 사용합니다.
+
+• net: HTTP보다 로우 레벨인 TCP나 IPC 통신을 할 때 사용합니다.
+
+• perf_hooks: 성능 측정을 할 때 console.time보다 더 정교하게 측정합니다.
+
+• querystring: URLSearchParams가 나오기 이전에 쿼리스트링을 다루기 위해 사용했던 모듈입니다. 요즘은 URLSearchParams를 사용하는 것을 권장합니다.
+
+• string_decoder: 버퍼 데이터를 문자열로 바꾸는 데 사용합니다.
+
+• tls: TLS와 SSL에 관련된 작업을 할 때 사용합니다.
+
+• tty: 터미널과 관련된 작업을 할 때 사용합니다.
+
+• v8: v8 엔진에 직접 접근할 때 사용합니다.
+
+• vm: 가상 머신에 직접 접근할 때 사용합니다.
+
+• wasi: 웹어셈블리를 실행할 때 사용하는 실험적인 모듈입니다.
