@@ -1,36 +1,47 @@
 const express = require("express");
-
 const app = express();
+const session = require("express-session");
+const morgan = require("morgan");
+const multer = require("multer");
+const cookieParser = require("cookie-parser");
+const fs = require("fs");
+const path = require("path");
+const indexRouter = require("./router");
+const userRouter = require("./router/user");
+
+app.set("port", process.env.PORT || 3011);
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
+
+app.use(morgan("dev"));
+app.use("/", indexRouter);
+app.use("/user", userRouter);
 
 app.use((req, res, next) => {
-  console.log(" 모든 요청에 다 실행됩니다.");
-  try {
-    console.log(asda)
-  } catch (err) {
-    next(err)
-  }
+  res.status(404).send("Not Found");
 });
 
-app.set("port", process.env.PORT || 3010);
+app.use(morgan("dev"));
+app.use(cookieParser("yelimcho"));
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: "yelimcho",
+    cookie: {
+      httpOnly: true,
+      secure: false,
+    },
+    name: "session-cookie",
+  })
+);
 
-app.get("*", (req, res) => {
-  // 모든 요청에 대해서
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// 모든 요청에 대해서
+app.get("/", (req, res) => {
   res.send(`Hello, everyone`);
-});
-app.get("/yelim", (req, res) => {
-  res.send(`Hello, yelim`);
-});
-app.get("/:name", (req, res) => {
-  res.send(`Hello, ${req.params.name}`);
-});
-// app.get("/", (req, res) => {
-//   res.send("Hello, Express");
-// });
-
-app.use((err, req, res, next) => {
-  // 에러 처리 미들웨어는 매개변수가 err, req, res, next로 네 개
-  console.error(err);
-  res.status(500).send(err.message);
 });
 
 app.listen(app.get("port"), () => {

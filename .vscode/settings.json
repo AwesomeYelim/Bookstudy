@@ -10,8 +10,9 @@
   "pasteImage.showFilePathConfirmInputBox": true,
   "markdownlint.config": {
     "MD033": {
-      "allowed_elements": ["details", "summary", "div", "mark"]
+      "allowed_elements": ["details", "summary", "div", "mark", "del"]
     },
     "editor.quickSuggestions": true
-  }
+  },
+  "liveServer.settings.port": 5501
 }
