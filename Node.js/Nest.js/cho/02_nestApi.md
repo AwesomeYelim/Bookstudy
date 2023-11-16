@@ -340,3 +340,101 @@ export class UsersController {
 
 - 그럼 다음과 같이 보여짐
   ![02_nestApi936](./img/02_nestApi936.png)
+
+## `custom decorator` 만들기
+
+- `contorller` 안에 req, res 를 사용하는것은 왠만하면 지양해야한다고 했었음(의존성 관련해서, 나중에 festify 나 Koa로 쉽게 건너갈수 있음/ 중복제거) => `custom decorator` 사용해서 해결할 수있음
+
+- 다음과 같이 작성이후 `users.controller.ts` 의 `@Req() req` => `@User() user` 로 `req` => `user` 로 바꿔준다.
+
+```ts
+// common/decorator/user.decorator.ts
+
+import { createParamDecorator, ExecutionContext } from "@nestjs/common";
+
+export const User = createParamDecorator((data: unknown, ctx: ExecutionContext) => {
+  const req = ctx.switchToHttp().getRequest();
+  return req.user;
+});
+```
+
+```ts
+// common/decorator/token.decorator.ts
+
+import { createParamDecorator, ExecutionContext } from "@nestjs/common";
+
+export const Token = createParamDecorator((data: unknown, ctx: ExecutionContext) => {
+  const res = ctx.switchToHttp().getResponse(); // 이런식으로 실행 컨텍스트에 접근이 가능하면 이 함수 안에서 동시에 http, rpc 서버 정보 등을 가져올수 있고 웹소켓이랑 http 통신을 쉽게 해준다.
+  return res.locals.jwt;
+});
+
+// 이것도 다음과 같이 사용가능함
+// @Token() token
+```
+
+## `interceptor` 사용하기
+
+- aop 관점으로 개발하게 된다.
+
+> AOP
+
+- AOP는 관점 지향 프로그래밍을 의미한다. 이는 모듈성을 높이고 소프트웨어 개발에서 교차 관심을 촉진하는 것을 목표로 하는 프로그래밍 패러다임이다.
+
+기존 객체 지향 프로그래밍(OOP)에서는 로깅, 보안 또는 트랜잭션 관리와 같은 문제가 코드베이스 전체에 분산되어 관리 및 유지 관리가 더 어려워지는 경우가 많았다.
+
+![02_nestApi1126](./img/02_nestApi1126.png)
+
+- `middleware/logger.middleware.ts` 을 보게 되면 `controller 전` 과 `controller 후` 둘을 동시에 담당하고 있음 => 이런것들을 nest 의 `interceptor` 로 그대로 구현 할 수 있음
+
+- `controller` 에서 `return 한 값`도 가공을 해줄수 있음
+
+```ts
+// common/interceptors/undefinedToNull.interceptor.ts
+
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
+import { map, Observable } from "rxjs";
+
+@Injectable()
+export class UndefinedToNullInterceptor implements NestInterceptor {
+  intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
+    // 전 부분
+    // return next.handle().pipe(map((data) => ({ data, code: 'SUCCESS' })));
+    return next.handle().pipe(map((data) => (data === undefined ? null : data)));
+  }
+}
+```
+
+- 적용은 다음과 같이 가능하다.
+
+```ts
+// users.controller.ts
+
+...
+@UseInterceptors(UndefinedToNullInterceptor) // 전체 적용하려면 여기 위치시킴
+@ApiTags('USER')
+@Controller('api/users')
+export class UsersController {
+  ...
+}
+...
+```
+
+```ts
+...
+export class UsersController {
+  constructor(private usersService: UsersService) {}
+
+  @UseInterceptors(UndefinedToNullInterceptor) // 개별 적용
+  @ApiResponse({
+    status: 200,
+    description: '성공',
+    type: UserDto,
+  })
+  ...
+}
+...
+```
+
+- `undefinedToNull.interceptor.ts` 에서 사용한 `rxjs` 는 다음을 참고하자
+
+<https://rxjs.dev/guide/operators>
