@@ -48,7 +48,7 @@ export class Users {
 
   @IsString()
   @IsNotEmpty()
-  @Column('varchar', { name: 'password', length: 100, select: false })
+  @Column('varchar', { name: 'password', length: 100, select: false }) // select: false => password 빼고 불러옴
   password: string;
 
   @CreateDateColumn()
@@ -99,7 +99,7 @@ export class Users {
       referencedColumnName: 'id',
     },
   })
-  Workspaces: Workspaces[];
+  Workspaces: Workspaces[]; // local.serializer.ts => relations 에 적어준다.
 
   @ManyToMany(() => Channels, (channels) => channels.Members) // 다대다 관계
   @JoinTable({

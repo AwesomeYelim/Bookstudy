@@ -1,3 +1,4 @@
+import { AuthModule } from './auth/auth.module';
 import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -20,7 +21,8 @@ import { Workspaces } from './entities/Workspaces';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
+    AuthModule,
     UsersModule,
     WorkspacesModule,
     ChannelsModule,
