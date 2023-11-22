@@ -1496,6 +1496,13 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.7.tgz#50ae4353eaaddc04044279812f52c8c65857dbcb"
   integrity sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==
 
+"@types/react-custom-scrollbars@^4.0.12":
+  version "4.0.12"
+  resolved "https://registry.yarnpkg.com/@types/react-custom-scrollbars/-/react-custom-scrollbars-4.0.12.tgz#f36d699271758f2274edf17e02574a722f17b9bf"
+  integrity sha512-PuD+qYAE/OiosHFTudP2uK/mQUR612lJ722/n3y8Dun4fBjEppix1vlMhLuO1OlKZeelSpgBQRWNoYItD2UzrA==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-dom@^17.0.0":
   version "17.0.23"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.23.tgz#55b98df6b27595c8ca84e04e5b5df0f86bca7d24"
@@ -4766,10 +4773,10 @@ react-base16-styling@^0.6.0:
     lodash.flow "^3.3.0"
     pure-color "^1.2.0"
 
-react-custom-scrollbars-2@^4.3.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/react-custom-scrollbars-2/-/react-custom-scrollbars-2-4.5.0.tgz#cff18e7368bce9d570aea0be780045eda392c745"
-  integrity sha512-/z0nWAeXfMDr4+OXReTpYd1Atq9kkn4oI3qxq3iMXGQx1EEfwETSqB8HTAvg1X7dEqcCachbny1DRNGlqX5bDQ==
+react-custom-scrollbars@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/react-custom-scrollbars/-/react-custom-scrollbars-4.2.1.tgz#830fd9502927e97e8a78c2086813899b2a8b66db"
+  integrity sha512-VtJTUvZ7kPh/auZWIbBRceGPkE30XBYe+HktFxuMWBR2eVQQ+Ur6yFJMoaYcNpyGq22uYJ9Wx4UAEcC0K+LNPQ==
   dependencies:
     dom-css "^2.0.0"
     prop-types "^15.5.10"

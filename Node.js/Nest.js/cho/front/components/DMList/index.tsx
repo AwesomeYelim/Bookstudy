@@ -40,6 +40,7 @@ const DMList = () => {
       socket?.off('onlineList');
     };
   }, [socket]);
+  console.log(memberData);
 
   return (
     <>

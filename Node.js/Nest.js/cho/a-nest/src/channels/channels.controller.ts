@@ -1,17 +1,42 @@
-import { Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UploadedFiles,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
+import { User } from 'src/common/decorator/user.decorator';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+import { ChannelsService } from './channels.service';
+import { PostChatDto } from './dto/post-chat.dto';
 
+try {
+  fs.readdirSync('uploads');
+} catch (error) {
+  console.error('upload 폴더가 없어 upload 폴더를 생성합니다.');
+  fs.mkdirSync('uploads');
+}
 @ApiTags('CHANNEL')
-@Controller('channels')
+@Controller('api/workspaces/:url/channels')
 export class ChannelsController {
+  constructor(private channelsService: ChannelsService) {}
   @Get()
-  getAllChannels() {}
+  getAllChannels(@Param('url') url: string, @User() user) {
+    return this.channelsService.getWorkspaceChannels(url, user.id);
+  }
 
   @Post()
   createChannels() {}
 
   @Get(':name')
-  getSpecificChannel() {}
+  getSpecificChannel(@Param('name') name: string) {}
 
   @Get(':name/chats')
   getChet(@Query() query, @Param() param) {
@@ -20,11 +45,64 @@ export class ChannelsController {
   }
 
   @Post(':name/chats')
-  postChat() {}
+  postChat(
+    @Param('url') url: string,
+    @Param('name') name: string,
+    @Body() body: PostChatDto,
+    @User() user,
+  ) {
+    // return this.channelsService.postChat({
+    //   url,
+    //   name,
+    //   content: body.content,
+    //   myId: user.id,
+    // });
+  }
 
-  @Get(':name')
-  getAllMembers() {}
+  @UseInterceptors(
+    FilesInterceptor('image', 10, {
+      storage: multer.diskStorage({
+        destination(req, file, cb) {
+          cb(null, 'uploads/');
+        },
+        filename(req, file, cb) {
+          const ext = path.extname(file.originalname);
+          cb(null, path.basename(file.originalname, ext) + Date.now() + ext);
+        },
+      }),
+      limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+    }),
+  )
+  @Post(':name/images')
+  postImages(
+    @UploadedFiles() files: Express.Multer.File[],
+    @Param('url') url: string,
+    @Param('name') name: string,
+    @Body() body: PostChatDto,
+    @User() user,
+  ) {
+    return this.channelsService.createWorkspaceChannelImages(
+      url,
+      name,
+      files,
+      user.id,
+    );
+  }
 
-  @Post(':name/chats')
+  @Get(':name/unread')
+  getUnreads(
+    @Param('url') url: string,
+    @Param('name') name: string,
+    @Param('after') after: string,
+  ) {
+    return this.channelsService.getChannelUnreadsCount(url, name, after);
+  }
+
+  @Get(':name/members')
+  getAllMembers(@Param('url') url: string, @Param('name') name: string) {
+    return this.channelsService.getWorkspaceChannelMembers(url, name);
+  }
+
+  @Post(':name/members')
   inviteMemvbers() {}
 }

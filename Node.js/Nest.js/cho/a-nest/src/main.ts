@@ -8,7 +8,7 @@ import path from 'path';
 import { ValidationPipe } from '@nestjs/common';
 
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './httpException.filter';
+import { HttpExceptionFilter } from './http-exception.filter';
 
 declare const module: any;
 
@@ -17,9 +17,15 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({
-      transform: true,
+      transform: true, // parseIntPipe 안쓰고 자동 형변환됨
     }),
   );
+  // if (process.env.NODE_ENV !== 'production') {
+  //   app.enableCors({
+  //     origin: true,
+  //     credentials: true,
+  //   });
+  // }
   app.enableCors({
     origin: true,
     credentials: true,

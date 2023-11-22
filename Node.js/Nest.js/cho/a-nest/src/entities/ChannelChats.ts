@@ -8,8 +8,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { Users } from './Users';
 import { Channels } from './Channels';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Index('UserId', ['UserId'], {})
 @Index('ChannelId', ['ChannelId'], {})
@@ -18,6 +20,12 @@ export class ChannelChats {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({
+    description: '내용',
+    example: 'hihi',
+  })
   @Column('text', { name: 'content' })
   content: string;
 

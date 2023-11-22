@@ -9,7 +9,7 @@ import fetcher from '@utils/fetcher';
 import makeSection from '@utils/makeSection';
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Scrollbars } from 'react-custom-scrollbars-2';
+import { Scrollbars } from 'react-custom-scrollbars';
 import { useParams } from 'react-router';
 import { Redirect } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';

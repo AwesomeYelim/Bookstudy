@@ -18,6 +18,7 @@ import { DMs } from './entities/DMs';
 import { Mentions } from './entities/Mentions';
 import { WorkspaceMembers } from './entities/WorkspaceMembers';
 import { Workspaces } from './entities/Workspaces';
+import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
@@ -46,11 +47,12 @@ import { Workspaces } from './entities/Workspaces';
       ],
       // autoLoadEntities: true,
       synchronize: false,
-      logging: true,
+      logging: process.env.NODE_ENV !== 'production',
       keepConnectionAlive: true,
       charset: 'utf8mb4',
     }),
     TypeOrmModule.forFeature([Users]),
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService, UsersService, ConfigService],

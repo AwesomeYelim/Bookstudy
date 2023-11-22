@@ -10,7 +10,7 @@ import { WorkspaceMembers } from '../entities/WorkspaceMembers';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(Users) private usersRepository: Repository<Users>,
+    // @InjectRepository(Users) private usersRepository: Repository<Users>,
     // @InjectRepository(WorkspaceMembers)
     // private workspaceMembersRepository: Repository<WorkspaceMembers>,
     // @InjectRepository(ChannelMembers)
