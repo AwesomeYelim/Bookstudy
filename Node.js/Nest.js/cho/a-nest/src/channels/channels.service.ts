@@ -1,12 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ChannelChats } from 'src/entities/ChannelChats';
-import { ChannelMembers } from 'src/entities/ChannelMembers';
-import { Channels } from 'src/entities/Channels';
-import { Users } from 'src/entities/Users';
-import { Workspaces } from 'src/entities/Workspaces';
-import { EventsGateway } from 'src/events/events.gateway';
-import { Repository, MoreThan } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
+import { ChannelChats } from '../entities/ChannelChats';
+import { ChannelMembers } from '../entities/ChannelMembers';
+import { Channels } from '../entities/Channels';
+import { Users } from '../entities/Users';
+import { Workspaces } from '../entities/Workspaces';
+import { EventsGateway } from '../events/events.gateway';
 
 @Injectable()
 export class ChannelsService {
@@ -47,12 +47,13 @@ export class ChannelsService {
   }
 
   async getWorkspaceChannel(url: string, name: string) {
-    return this.channelsRepository.findOne({
-      where: {
-        name,
-      },
-      relations: ['Workspace'],
-    });
+    return this.channelsRepository
+      .createQueryBuilder('channel')
+      .innerJoin('channel.Workspace', 'workspace', 'workspace.url = :url', {
+        url,
+      })
+      .where('channel.name = :name', { name })
+      .getOne();
   }
 
   async createWorkspaceChannels(url: string, name: string, myId: number) {
@@ -80,6 +81,7 @@ export class ChannelsService {
       })
       .getMany();
   }
+
   async createWorkspaceChannelMembers(url, name, email) {
     const channel = await this.channelsRepository
       .createQueryBuilder('channel')
@@ -89,8 +91,7 @@ export class ChannelsService {
       .where('channel.name = :name', { name })
       .getOne();
     if (!channel) {
-      throw new NotFoundException('채널이 존재하지 않습니다.');
-      //   return null; // TODO: 이 때 어떻게 에러 발생?
+      return null; // TODO: 이 때 어떻게 에러 발생?
     }
     const user = await this.usersRepository
       .createQueryBuilder('user')
@@ -100,8 +101,7 @@ export class ChannelsService {
       })
       .getOne();
     if (!user) {
-      throw new NotFoundException('사용자가 존재하지 않습니다.');
-      //   return null;
+      return null;
     }
     const channelMember = new ChannelMembers();
     channelMember.ChannelId = channel.id;
@@ -130,9 +130,12 @@ export class ChannelsService {
       .getMany();
   }
 
-  
-
-  async getChannelUnreadsCount(url, name, after) {
+  async createWorkspaceChannelChats(
+    url: string,
+    name: string,
+    content: string,
+    myId: number,
+  ) {
     const channel = await this.channelsRepository
       .createQueryBuilder('channel')
       .innerJoin('channel.Workspace', 'workspace', 'workspace.url = :url', {
@@ -140,17 +143,25 @@ export class ChannelsService {
       })
       .where('channel.name = :name', { name })
       .getOne();
-    return this.channelChatsRepository.count({
-      where: {
-        ChannelId: channel.id,
-        createdAt: MoreThan(new Date(after)), // createAt > "오늘 날짜"
-      },
+    const chats = new ChannelChats();
+    chats.content = content;
+    chats.UserId = myId;
+    chats.ChannelId = channel.id;
+    const savedChat = await this.channelChatsRepository.save(chats);
+    const chatWithUser = await this.channelChatsRepository.findOne({
+      where: { id: savedChat.id },
+      relations: ['User', 'Channel'],
     });
+    this.eventsGateway.server
+      // .of(`/ws-${url}`)
+      .to(`/ws-${url}-${chatWithUser.ChannelId}`)
+      .emit('message', chatWithUser);
   }
+
   async createWorkspaceChannelImages(
     url: string,
     name: string,
-    files: Express.Multer.File[], // 설치 => npm i -D @types/multer
+    files: Express.Multer.File[],
     myId: number,
   ) {
     console.log(files);
@@ -178,9 +189,19 @@ export class ChannelsService {
     }
   }
 
-  // 참고 <https://docs.nestjs.com/websockets/gateways> =>
-  // 설치
-  // 1. npm i --save @nestjs/websockets @nestjs/platform-socket.io
-  // 2. nest g module events
-  // 3. nest g ga events
+  async getChannelUnreadsCount(url, name, after) {
+    const channel = await this.channelsRepository
+      .createQueryBuilder('channel')
+      .innerJoin('channel.Workspace', 'workspace', 'workspace.url = :url', {
+        url,
+      })
+      .where('channel.name = :name', { name })
+      .getOne();
+    return this.channelChatsRepository.count({
+      where: {
+        ChannelId: channel.id,
+        createdAt: MoreThan(new Date(after)),
+      },
+    });
+  }
 }

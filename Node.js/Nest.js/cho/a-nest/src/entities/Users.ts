@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
   CreateDateColumn,
@@ -18,37 +17,20 @@ import { DMs } from './DMs';
 import { Mentions } from './Mentions';
 import { WorkspaceMembers } from './WorkspaceMembers';
 import { Workspaces } from './Workspaces';
-import { IsEmail, IsString, IsNotEmpty } from 'class-validator';
+
 @Index('email', ['email'], { unique: true })
 @Entity({ schema: 'sleact', name: 'users' })
 export class Users {
-  @ApiProperty({
-    example: 1,
-    description: '사용자 아이디',
-  })
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @IsEmail()
-  @ApiProperty({
-    example: 'uiop01900@gmail.com',
-    description: '이메일',
-  })
   @Column('varchar', { name: 'email', unique: true, length: 30 })
   email: string;
 
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({
-    example: '예림쓰',
-    description: '닉네임',
-  })
   @Column('varchar', { name: 'nickname', length: 30 })
   nickname: string;
 
-  @IsString()
-  @IsNotEmpty()
-  @Column('varchar', { name: 'password', length: 100, select: false }) // select: false => password 빼고 불러옴
+  @Column('varchar', { name: 'password', length: 100, select: false })
   password: string;
 
   @CreateDateColumn()
@@ -99,9 +81,9 @@ export class Users {
       referencedColumnName: 'id',
     },
   })
-  Workspaces: Workspaces[]; // local.serializer.ts => relations 에 적어준다.
+  Workspaces: Workspaces[];
 
-  @ManyToMany(() => Channels, (channels) => channels.Members) // 다대다 관계
+  @ManyToMany(() => Channels, (channels) => channels.Members)
   @JoinTable({
     name: 'channelmembers',
     joinColumn: {

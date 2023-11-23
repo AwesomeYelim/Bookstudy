@@ -1,7 +1,6 @@
 import {
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
@@ -28,9 +27,6 @@ export class WorkspaceMembers {
 
   @Column('datetime', { name: 'loggedInAt', nullable: true })
   loggedInAt: Date | null;
-
-  @DeleteDateColumn()
-  deletedAt: Date | null; // soft delete(가짜로 지운척)
 
   @ManyToOne(() => Workspaces, (workspaces) => workspaces.WorkspaceMembers, {
     onDelete: 'CASCADE',

@@ -41,7 +41,7 @@ export class Workspaces {
   deletedAt: Date | null;
 
   @Column('int', { name: 'OwnerId', nullable: true })
-  OwnerId: number | null; // 가상의 컬럼은 대문자로 표기함
+  OwnerId: number | null;
 
   @OneToMany(() => Channels, (channels) => channels.Workspace)
   Channels: Channels[];
@@ -66,6 +66,6 @@ export class Workspaces {
   @JoinColumn([{ name: 'OwnerId', referencedColumnName: 'id' }])
   Owner: Users;
 
-  @ManyToMany(() => Users, (users) => users.Workspaces) // 인자값을 반대로 적어주면 된다.
+  @ManyToMany(() => Users, (users) => users.Workspaces)
   Members: Users[];
 }

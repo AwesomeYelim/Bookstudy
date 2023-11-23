@@ -13,10 +13,10 @@ import { EventsModule } from 'src/events/events.module';
   imports: [
     TypeOrmModule.forFeature([
       Channels,
-      ChannelMembers,
       ChannelChats,
       Users,
       Workspaces,
+      ChannelMembers,
     ]),
     EventsModule, // 이벤트 모듈은 여기 넣어줘야함
   ],

@@ -19,10 +19,10 @@ const useSocket = (workspace?: string): [Socket | undefined, () => void] => {
     sockets[workspace] = io(`${backUrl}/ws-${workspace}`, {
       transports: ['websocket'],
     });
-    console.info('create socket', workspace, sockets[workspace]);
+    // console.info('create socket', workspace, sockets[workspace]);
     sockets[workspace].on('connect_error', (err) => {
-      console.error(err);
-      console.log(`connect_error due to ${err.message}`);
+      // console.error(err);
+      // console.log(`connect_error due to ${err.message}`);
     });
   }
 

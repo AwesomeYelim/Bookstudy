@@ -1,4 +1,4 @@
-import { UnauthorizedException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import bcrypt from 'bcrypt';
@@ -10,15 +10,20 @@ import { WorkspaceMembers } from '../entities/WorkspaceMembers';
 @Injectable()
 export class UsersService {
   constructor(
-    // @InjectRepository(Users) private usersRepository: Repository<Users>,
-    // @InjectRepository(WorkspaceMembers)
-    // private workspaceMembersRepository: Repository<WorkspaceMembers>,
-    // @InjectRepository(ChannelMembers)
-    // private channelMembersRepository: Repository<ChannelMembers>,
+    @InjectRepository(Users) private usersRepository: Repository<Users>,
+    @InjectRepository(WorkspaceMembers)
+    private workspaceMembersRepository: Repository<WorkspaceMembers>,
+    @InjectRepository(ChannelMembers)
+    private channelMembersRepository: Repository<ChannelMembers>,
     private dataSource: DataSource,
   ) {}
 
-  getUsers() {}
+  async findByEmail(email: string) {
+    return this.usersRepository.findOne({
+      where: { email },
+      select: ['id', 'email', 'password'],
+    });
+  }
 
   async join(email: string, nickname: string, password: string) {
     const queryRunner = this.dataSource.createQueryRunner();
@@ -28,7 +33,7 @@ export class UsersService {
       .getRepository(Users)
       .findOne({ where: { email } });
     if (user) {
-      throw new UnauthorizedException('이미 존재하는 사용자입니다');
+      throw new ForbiddenException('이미 존재하는 사용자입니다');
     }
     const hashedPassword = await bcrypt.hash(password, 12);
     try {
@@ -42,7 +47,6 @@ export class UsersService {
         .create();
       workspaceMember.UserId = returned.id;
       workspaceMember.WorkspaceId = 1;
-
       await queryRunner.manager
         .getRepository(WorkspaceMembers)
         .save(workspaceMember);
@@ -50,11 +54,11 @@ export class UsersService {
         UserId: returned.id,
         ChannelId: 1,
       });
-      await queryRunner.commitTransaction(); // 성공
+      await queryRunner.commitTransaction();
       return true;
     } catch (error) {
       console.error(error);
-      await queryRunner.rollbackTransaction(); // 실패
+      await queryRunner.rollbackTransaction();
       throw error;
     } finally {
       await queryRunner.release();
