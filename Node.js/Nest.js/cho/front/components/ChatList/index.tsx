@@ -22,7 +22,6 @@ const ChatList: FC<Props> = ({ scrollbarRef, isReachingEnd, isEmpty, chatSection
     },
     [setSize, scrollbarRef, isReachingEnd, isEmpty],
   );
-  console.log(chatSections);
 
   return (
     <ChatZone>

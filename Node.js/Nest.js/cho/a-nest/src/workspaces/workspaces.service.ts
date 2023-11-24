@@ -53,6 +53,8 @@ export class WorkspacesService {
   }
 
   async getWorkspaceMembers(url: string) {
+    console.log(url);
+
     return this.usersRepository
       .createQueryBuilder('user')
       .innerJoin('user.WorkspaceMembers', 'members')

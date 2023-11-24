@@ -22,6 +22,7 @@ const Channel = () => {
   const [socket] = useSocket(workspace);
   const { data: userData } = useSWR<IUser>('/api/users', fetcher);
   const { data: channelsData } = useSWR<IChannel[]>(`/api/workspaces/${workspace}/channels`, fetcher);
+
   const channelData = channelsData?.find((v) => v.name === channel);
   const {
     data: chatData,

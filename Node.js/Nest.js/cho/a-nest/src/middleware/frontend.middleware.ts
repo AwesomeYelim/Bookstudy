@@ -5,6 +5,7 @@ import path from 'path';
 export class FrontendMiddleware implements NestMiddleware {
   use(req, res, next) {
     const { baseUrl } = req;
+
     if (baseUrl.includes('/api')) {
       next();
     } else {

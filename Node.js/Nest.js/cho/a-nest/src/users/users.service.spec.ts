@@ -6,7 +6,7 @@ import { WorkspaceMembers } from '../entities/WorkspaceMembers';
 import { UsersService } from './users.service';
 
 class MockUserRepository {
-  #data = [{ id: 1, email: 'zerohch0@gmail.com' }];
+  #data = [{ id: 1, email: 'uiop01900@gmail.com' }];
   findOne({ where: { email } }) {
     const data = this.#data.find((v) => v.email === email);
     if (data) {
@@ -48,13 +48,13 @@ describe('UsersService', () => {
   });
 
   it('findByEmail은 이메일을 통해 유저를 찾아야 함', () => {
-    expect(service.findByEmail('zerohch0@gmail.com')).resolves.toStrictEqual({
-      email: 'zerohch0@gmail.com',
+    expect(service.findByEmail('uiop01900@gmail.com')).resolves.toStrictEqual({
+      email: 'uiop01900@gmail.com',
       id: 1,
     });
   });
 
   it('findByEmail은 유저를 못 찾으면 null을 반환해야 함', () => {
-    expect(service.findByEmail('zerohch0@gmil.com')).resolves.toBe(null);
+    expect(service.findByEmail('uiop01900@gmil.com')).resolves.toBe(null);
   });
 });

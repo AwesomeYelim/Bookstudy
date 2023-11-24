@@ -49,7 +49,7 @@ import { FrontendMiddleware } from './middleware/frontend.middleware';
       keepConnectionAlive: true,
       migrations: [__dirname + '/migrations/*.ts'],
       charset: 'utf8mb4_general_ci',
-      synchronize: true,
+      synchronize: false,
       logging: true,
     }),
     AuthModule,
@@ -64,9 +64,9 @@ import { FrontendMiddleware } from './middleware/frontend.middleware';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
     consumer.apply(LoggerMiddleware).forRoutes('*');
-    consumer.apply(FrontendMiddleware).forRoutes({
-      path: '/**',
-      method: RequestMethod.ALL,
-    });
+    // consumer.apply(FrontendMiddleware).forRoutes({
+    //   path: '/**',
+    //   method: RequestMethod.ALL,
+    // });
   }
 }
