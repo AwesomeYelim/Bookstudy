@@ -17,7 +17,7 @@ nest new aNest
 
 - 다음과 같은 화면에서 나는 yarn 을 선택해 주었다.
 
-![01_nestInit112](./img/01_nestInit112.png)
+![b_01_nestinit112](./img/b_01_nestinit112.png)
 
 - a-nest 에 들어가서 `package.json` 을 살펴보자
 
@@ -114,15 +114,15 @@ yarn add -d webpack-node-externals run-script-webpack-plugin webpack
 
 - 생성되는 모듈들을 `app.module.ts` `import` 에 넣어주면 연결이 됨
 
-![01_nestInit1053](./img/01_nestInit1053.png)
+![b_01_nestinit1053](./img/b_01_nestinit1053.png)
 
 - 여기부분이 `router` 라고 생각하면 됨 `@GET()`이 GET
 
-![01_nestInit1017](./img/01_nestInit1017.png)
+![b_01_nestinit1017](./img/b_01_nestinit1017.png)
 
 다음과 같이 인자값을 입력하게되면 주소가 설정이됨
 
-![01_nestInit1032](./img/01_nestInit1032.png)
+![b_01_nestinit1032](./img/b_01_nestinit1032.png)
 
 ### `anotation` + `decoration` 패턴 사용
 
@@ -317,7 +317,7 @@ export class AppModule implements NestModule {
 
 - 이런식으로 `middleware` 를 작성하게 되면 모건처럼 작동하는 `logger` 를 구현해 보았다.
 
-![01_nestInit210](./img/01_nestInit210.png)
+![b_01_nestinit210](./img/b_01_nestinit210.png)
 
 - 하지만 `nest morgan` 을 쓰도록 하자...! `( ͡°( ͡° ͜ʖ( ͡° ͜ʖ ͡°)...(웅성웅성)`
 

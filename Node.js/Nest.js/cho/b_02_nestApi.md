@@ -185,7 +185,7 @@ yarn add @nestjs/swagger
 
 - 다음과 같이 api 문서가 세팅된다 ~
 
-![02_nestApi825](./img/02_nestApi825.png)
+![b_02_nestApi825](./img/b_02_nestApi825.png)
 
 ### 각 api description 작성
 
@@ -212,7 +212,7 @@ export class UsersController {
 
 - 다음과 같이 볼수 있다.
 
-  ![02_nestApi80](./img/02_nestApi80.png)
+  ![b_02_nestApi80](./img/b_02_nestApi80.png)
 
 ### `Property` 작성
 
@@ -234,9 +234,9 @@ export class JoinRequestDto {
 
 - 다음과 같이 확인할 수 있다.
 
-![02_nestApi833](./img/02_nestApi833.png)
+![b_02_nestApi833](./img/b_02_nestApi833.png)
 
-![02_nestApi859](./img/02_nestApi859.png)
+![b_02_nestApi859](./img/b_02_nestApi859.png)
 
 ### `query` 작성
 
@@ -264,7 +264,7 @@ export class JoinRequestDto {
 
 - 이렇게 확인 가능하다
 
-![02_nestApi846](./img/02_nestApi846.png)
+![b_02_nestApi846](./img/b_02_nestApi846.png)
 
 ### `tag` 작성
 
@@ -281,7 +281,7 @@ export class DmsController {}
 
 - 다음과 같이 구분 `tag` 를 가질수 있음
 
-![02_nestApi845](./img/02_nestApi845.png)
+![b_02_nestApi845](./img/b_02_nestApi845.png)
 
 ### `dto` 관리
 
@@ -339,7 +339,7 @@ export class UsersController {
 ```
 
 - 그럼 다음과 같이 보여짐
-  ![02_nestApi936](./img/02_nestApi936.png)
+  ![b_02_nestApi936](./img/b_02_nestApi936.png)
 
 ## `custom decorator` 만들기
 
@@ -382,7 +382,7 @@ export const Token = createParamDecorator((data: unknown, ctx: ExecutionContext)
 
 기존 객체 지향 프로그래밍(OOP)에서는 로깅, 보안 또는 트랜잭션 관리와 같은 문제가 코드베이스 전체에 분산되어 관리 및 유지 관리가 더 어려워지는 경우가 많았다.
 
-![02_nestApi1126](./img/02_nestApi1126.png)
+![b_02_nestApi1126](./img/b_02_nestApi1126.png)
 
 - `middleware/logger.middleware.ts` 을 보게 되면 `controller 전` 과 `controller 후` 둘을 동시에 담당하고 있음 => 이런것들을 nest 의 `interceptor` 로 그대로 구현 할 수 있음
 

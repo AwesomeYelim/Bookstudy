@@ -21,7 +21,7 @@ yarn add @nestjs/typeorm typeorm mysql
 
 > CRUD 한번에 만들기
 
-![03_nestTypeorm512](./img/03_nestTypeorm512.png)
+![b_03_nestTypeorm512](./img/b_03_nestTypeorm512.png)
 
 ## typeorm 커넥션 맺기
 
@@ -144,13 +144,13 @@ export default dataSource;
 - 테이블 생기기 전에 `database` 를 만들어 주어야 되기 때문에 다음 명령어를 실행한다
 
 ```sh
-yarn add db:create
+yarn db:create
 
 ```
 
 - 다움과 같이 `yelim db` 가 생성되었다 (짝짝짝)👏👏👏
 
-![03_nestTypeorm1019](./img/03_nestTypeorm1019.png)
+![b_03_nestTypeorm1019](./img/b_03_nestTypeorm1019.png)
 
 - 다음 명령어를 입력뒤 서버연결이 성공하면
 
@@ -243,7 +243,7 @@ yarn seed
 
 - 워크 벤치에서 표시부분 클릭하거나 `SElECT * FROM yelim.workspaces` 입력후 `Ctrl+Enter` 시 초기데이터 다음과 같이 조회가능(`seeding` 성공 ~)
 
-![03_nestTypeorm1132](./img/03_nestTypeorm1132.png)
+![b_03_nestTypeorm1132](./img/b_03_nestTypeorm1132.png)
 
 ## migration 하기
 
@@ -259,7 +259,7 @@ yarn db:create-migration
 
 - `src/migrations` 폴더 생성후 거기 정리해줌 => `dataSource.ts` 파일에 `src/migrations` 하위 파일들이 `migrations` 파일이라고 설정해 두었기 때문에
 
-![03_nestTypeorm1149](./img/03_nestTypeorm1149.png)
+![b_03_nestTypeorm1149](./img/b_03_nestTypeorm1149.png)
 
 - `migration` 에 작성된 하위 파일을 다음과 같이 수정한다.
 
@@ -296,7 +296,7 @@ yarn db:migrate
 
 - COLUMN `category` => `type` 이 됨
 
-![03_nestTypeorm1229](./img/03_nestTypeorm1229.png)
+![b_03_nestTypeorm1229](./img/b_03_nestTypeorm1229.png)
 
 - `rollback`(`type` => `category`) 을 하고 싶다면?
 
@@ -425,7 +425,7 @@ export class UsersService {
 
 - 그리고 나서 `api/users` 로 요청을 보내면 `1번`에 걸린후.. `status code` 가 다르게 오는것을 볼 수 있는데
 
-![03_nestTypeorm234](./img/03_nestTypeorm234.png)
+![b_03_nestTypeorm234](./img/b_03_nestTypeorm234.png)
 
 - 이러한 `HttpException` 을 캐치 할만한 `filter`를 만들어 주어야한다.
 
@@ -478,7 +478,7 @@ async function bootstrap() {
 
 - 다음과 같이 에러처리 되는것을 볼 수 있다.
 
-![03_nestTypeorm342](./img/03_nestTypeorm342.png)
+![b_03_nestTypeorm342](./img/b_03_nestTypeorm342.png)
 
 - `HttpException` 를 다음 모듈로 변경해서 응답코드를 생략할수도 있다.
 
@@ -576,7 +576,7 @@ async function bootstrap() {
 
 - 다음과 같이 error 를 한번에 캐치함
 
-![03_nestTypeorm335](./img/03_nestTypeorm335.png)
+![b_03_nestTypeorm335](./img/b_03_nestTypeorm335.png)
 
 ### 선후 관계 확인하는 방법
 
@@ -584,6 +584,6 @@ async function bootstrap() {
 
 <https://docs.nestjs.com/faq/request-lifecycle>
 
-![03_nestTypeorm340](./img/03_nestTypeorm340.png)
+![b_03_nestTypeorm340](./img/b_03_nestTypeorm340.png)
 
-![03_nestTypeorm334](./img/03_nestTypeorm334.png)
+![b_03_nestTypeorm334](./img/b_03_nestTypeorm334.png)
