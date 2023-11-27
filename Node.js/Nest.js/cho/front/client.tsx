@@ -17,9 +17,9 @@ render(
     {process.env.NODE_ENV === 'production' ? (
       <App />
     ) : (
-      <SWRDevtools>
-        <App />
-      </SWRDevtools>
+      // <SWRDevtools>
+      <App />
+      // </SWRDevtools>
     )}
   </BrowserRouter>,
   document.querySelector('#app'),

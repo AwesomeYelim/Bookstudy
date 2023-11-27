@@ -4,16 +4,16 @@
     "browser": true,
     "node": true
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:prettier/recommended",
-    "plugin:react-hooks/recommended"
-  ],
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended", "plugin:react-hooks/recommended"],
+  "plugins": ["@typescript-eslint"],
   "rules": {
-    "no-undef": "off"
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "no-undef": "warn",
+    "no-unused-expressions": [2, { "allowShortCircuit": false, "allowTernary": true }],
+    "react/no-unused-prop-types": [0],
+    "react/no-unused-class-component-methods": "off",
+    "react/jsx-no-useless-fragment": "off"
   },
   "settings": {
     "react": {
