@@ -6,10 +6,8 @@ export interface TitleEl extends Element {
   children: HTMLCollectionOf<Element>;
 }
 
-export type TitleType<T = { display?: "block" }> = {
-  onFocus: (e: React.FocusEvent<TitleEl | SVGElement>) => void;
-  onMouseOver: (e: React.MouseEvent<TitleEl | SVGElement>) => void;
-  style?: React.CSSProperties & T;
+export type TitleType = {
+  ref: (e: HTMLDivElement | HTMLAnchorElement | null) => void;
 };
 
 declare const titleCondition: TitleType;

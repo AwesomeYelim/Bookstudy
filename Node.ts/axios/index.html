@@ -1,0 +1,8 @@
+<script src="./index.js"></script>
+<script>
+  // api 테스트 할수 있는 사이트
+  axios.default.defaults.baseUrl = "https://jsonplaceholder.typicode.com/todos/1";
+  axios.get("/").then((result) => {
+    console.log(result);
+  });
+</script>

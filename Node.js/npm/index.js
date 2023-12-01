@@ -3,29 +3,39 @@
 const titleCondition = {
   ref: (e) => {
     const ellipsisStyle = (e) => {
+      // ellipsisStyle
       e.style.overflow = "hidden";
       e.style.textOverflow = "ellipsis";
       e.style.whiteSpace = "nowrap";
       e.style.display = "block";
+      e.title = e.innerText; // title tag
+
       return e;
     };
-    if (e) {
-      if (e.clientWidth < e.scrollWidth) {
-        ellipsisStyle(e);
+
+    // if have children
+    const depth = (currentTarget) => {
+      if (currentTarget) {
+        const { clientWidth, scrollWidth, children } = currentTarget;
+
+        if (!children?.length && currentTarget?.innerText && clientWidth < scrollWidth) {
+          ellipsisStyle(currentTarget);
+        } else {
+          Array.prototype.filter.call(children, (el) => depth(el));
+        }
       }
-    }
-  },
-  onFocus: (e) => {
-    e.stopPropagation();
-  },
-  onMouseOver: (e) => {
-    e.stopPropagation();
-    if (
-      !e.currentTarget.children.length &&
-      e.currentTarget.innerText &&
-      e.currentTarget.clientWidth < e.currentTarget.scrollWidth
-    ) {
-      e.currentTarget.title = e.currentTarget.innerText;
+    };
+
+    if (e) {
+      const { children } = e;
+
+      if (!children.length) {
+        if (e.clientWidth < e.scrollWidth) {
+          ellipsisStyle(e);
+        }
+      } else {
+        depth(e);
+      }
     }
   },
 };

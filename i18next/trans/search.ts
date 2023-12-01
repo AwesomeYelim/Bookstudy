@@ -10,36 +10,36 @@
 // import cheerio, { AnyNode, BasicAcceptedElems } from "cheerio";
 // import puppeteer from "puppeteer";
 
-// // const getHtml = async () => {
-// //   try {
-// //     // 1
-// //     const html = await axios.get("https://www.genie.co.kr/chart/top200");
-// //     const daangn = await axios.get("https://www.daangn.com/region");
-// //     let ulList = [];
-// //     // 2
+// const getHtml = async () => {
+//   try {
+//     // 1
+//     const html = await axios.get("https://www.genie.co.kr/chart/top200");
+//     const daangn = await axios.get("https://www.daangn.com/region");
+//     let ulList = [];
+//     // 2
 
-// //     const $ = cheerio.load(daangn.data);
-// //     // 3
-// //     // const bodyList = $("tr.list");
+//     const $ = cheerio.load(daangn.data);
+//     // 3
+//     // const bodyList = $("tr.list");
 
-// //     const daangnList = $("article.card-top");
-// //     // console.log(bunList);
-// //     // console.log(bunList);
-// //     // console.log(daangnList);
-// //     daangnList.map((i, element) => {
-// //       console.log();
-// //       ulList[i] = {
-// //         rank: i + 1,
-// //         // 4
-// //         title: $(element).find("a.card-link div.card-desc h2.card-title").text().replace(/\s/g, ""),
-// //         // artist: $(element).find("td.info a.artist").text().replace(/\s/g, ""),
-// //       };
-// //     });
-// //     console.log("bodyList : ", ulList);
-// //   } catch (error) {
-// //     console.error(error);
-// //   }
-// // };
+//     const daangnList = $("article.card-top");
+//     // console.log(bunList);
+//     // console.log(bunList);
+//     // console.log(daangnList);
+//     daangnList.map((i, element) => {
+//       console.log();
+//       ulList[i] = {
+//         rank: i + 1,
+//         // 4
+//         title: $(element).find("a.card-link div.card-desc h2.card-title").text().replace(/\s/g, ""),
+//         // artist: $(element).find("td.info a.artist").text().replace(/\s/g, ""),
+//       };
+//     });
+//     console.log("bodyList : ", ulList);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
 // // getHtml();
 // type List = { rank: number; title: string; link: string };
