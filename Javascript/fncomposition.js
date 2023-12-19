@@ -7,13 +7,8 @@ const l = (str) => str.map((el) => el.toLowerCase());
 const j = (str) => str.join("");
 
 // 왼쪽에서 오른쪽 실행
-const pipe =
-  (...fn) =>
-  (input) => {
-    return fn.reduce((acc, fn) => {
-      return fn(acc);
-    }, input);
-  };
+// prettier-ignore
+const pipe = (...fn) => (input) => fn.reduce((acc, fn) => fn(acc), input);
 
 // 오른쪽에서 왼쪽 실행
 const compose =
