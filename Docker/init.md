@@ -187,3 +187,26 @@ docker exec -it ws2 /bin/sh
 => 사용자가 입력한 명령을 shell 프로그램이 받아서 운영체제에 전달하는 역활(일종의 창구 같은 역활이라 보면됨)
 
 ![init91536](./img/init91536.png)
+
+- 다음 디렉터리로 이동후, 파일 내역을 확인하면 `index.html` 을 확인할 수 있는데
+
+```sh
+cd /usr/local/apache2/htdocs
+ls -al
+```
+
+![init32438](./img/init32438.png)
+
+- 여기서 `nano` 에디터를 사용하려면 apt 를 사용하여 설치가능하다.
+
+```sh
+apt update # apt 를 최신상태로 업데이트 시킨다.
+apt install nano
+nano index.html # nano 에디터 킬수있음
+```
+
+- 필요부분 수정뒤 `ctrl + x`, `ctrl + y`, `enter` 누른뒤 저장
+
+- 이런식으로 container 내에 안에있는 파일을 바꿀수 있다.
+
+## 7. 호스트와 컨테이너의 파일시스템 연결
