@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	age := 17
+	age := 19
 
 	if age >= 20 {
 		fmt.Println("성인")
