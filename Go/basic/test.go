@@ -3,12 +3,9 @@ package main
 import "fmt"
 
 func main() {
-	age := 19
+	var num1 int = 8
+	var num2 int = 3
 
-	if age >= 20 {
-		fmt.Println("성인")
-	} else {
-		fmt.Println("급식")
-		fmt.Printf("%d 년후 성인임", 20-age)
-	}
+	answer := num1 % num2
+	fmt.Printf("%d", answer)
 }
