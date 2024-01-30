@@ -2,16 +2,16 @@
 
 ## 01. TCP/IP 모델
 
-- application layer (http, 브라우저)
+- Application layer (http, 브라우저)
 - Transport layer (TCP/UDP)
 - Internet layer (IP)
 - Network Access layer (인터넷)
 
-### 02. TCP 동작과정
+## 02. TCP 동작과정
 
 - 소켓 생성 => 3way Handshake(연결) => 데이터 송신, 수신 => 4way Handshake(연결끊기)
 
-#### TCP 헤더
+### TCP 헤더
 
 ![concept_3112](./img/concept_3112.png)
 

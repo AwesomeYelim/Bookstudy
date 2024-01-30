@@ -3,6 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	arr := [3][2]int{{3, 2}, {4, 1}, {0, 5}}
-	fmt.Println(arr)
+	var x []int = []int{1, 2, 3, 4, 5, 6}
+	b := append(x, 7, 9)
+	fmt.Println(cap(b)) // len(x) + cap(x) 
 }
